@@ -44,10 +44,11 @@ cat <<EOF >/kisakone/php5-cgi
 exec /usr/bin/php5-cgi
 EOF
 chmod 755 /kisakone/php5-cgi
+
 # done, restart
 service apache2 restart
 
-# restor backups
+# restore backups
 for FILE in $(ls -1 /kisakone/*.sql.tumi); do
   echo "Running SQL from: $FILE"
   mysql -u root --password=pass < $FILE
