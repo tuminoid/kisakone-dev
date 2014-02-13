@@ -15,3 +15,8 @@ sed -ie 's,listen = 127.0.0.1:9000,listen = /var/run/php5-fpm.sock,' /etc/php5/f
 service php5-fpm restart
 cp /vagrant/kisakone /etc/nginx/sites-available/default
 service nginx restart
+
+# postfix
+echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
+echo "postfix postfix/mailname string precise32" | debconf-set-selections
+apt-get -y postfi

@@ -20,6 +20,11 @@ cp /vagrant/kisakone /etc/apache2/sites-available/kisakone
 a2ensite kisakone
 service apache2 restart
 
+# postfix
+echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
+echo "postfix postfix/mailname string precise32" | debconf-set-selections
+apt-get -y postfix
+
 # restore backups
 for FILE in $(ls -1 /kisakone/*.sql.tumi); do
   echo "Running SQL from: $FILE"
