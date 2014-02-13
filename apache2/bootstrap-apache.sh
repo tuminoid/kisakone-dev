@@ -23,7 +23,11 @@ service apache2 restart
 # postfix
 echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
 echo "postfix postfix/mailname string precise32" | debconf-set-selections
-apt-get -y postfix
+apt-get -y install postfix
+
+# use sample configs for quick startup
+cp /kisakone/config.php.sample /kisakone/config.php
+cp /kisakone/config_site.php.sample /kisakone/config_site.php
 
 # restore backups
 for FILE in $(ls -1 /kisakone/*.sql.tumi); do
