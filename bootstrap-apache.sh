@@ -29,8 +29,8 @@ apt-get -y install postfix
 cp /kisakone/config.php.sample /kisakone/config.php
 cp /kisakone/config_site.php.sample /kisakone/config_site.php
 
-# restore backups
-for FILE in $(ls -1 /kisakone/*.sql.tumi); do
+# restore backups (expects backup file to contain proper "use database;")
+for FILE in $(ls -1 /vagrant/*.sql.backup); do
   echo "Running SQL from: $FILE"
   mysql -u root --password=pass < $FILE
 done
