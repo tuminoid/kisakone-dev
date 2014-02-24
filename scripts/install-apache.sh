@@ -1,7 +1,10 @@
 #!/bin/sh
 
 # update repos
-apt-get update
+apt-get -y update
+
+# basics
+apt-get -y install git nano curl wget nmap command-not-found
 
 # mysql
 apt-get -y install debconf-utils
