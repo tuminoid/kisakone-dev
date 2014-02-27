@@ -19,12 +19,7 @@ npm install
 
 
 # install java
-apt-get -y install debconf-utils
-add-apt-repository -y ppa:webupd8team/java
-apt-get -y update
-echo "oracle-java7-installer shared/accepted-oracle-license-v1-1 boolean true" | debconf-set-selections
-apt-get -y --force-yes install oracle-java7-installer
-# TODO: How to cache this Oracle installer downloads?!
+apt-get -y install openjdk-7-jre-headless
 
 
 # selenium, with little caching
