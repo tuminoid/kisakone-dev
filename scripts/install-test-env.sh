@@ -10,6 +10,10 @@ mkdir -p $CACHE
 apt-get -y update
 
 
+# install generic site testing tools
+apt-get -y install linkchecker siege
+
+
 # install php-cs-fixer
 apt-get -y install wget
 wget -nc http://cs.sensiolabs.org/get/php-cs-fixer.phar -O $CACHE/php-cs-fixer
