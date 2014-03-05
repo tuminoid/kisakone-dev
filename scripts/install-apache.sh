@@ -6,7 +6,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get -y update
 
 # basics
-apt-get -y install git nano curl wget nmap command-not-found
+apt-get -y install git nano curl wget nmap command-not-found man
 
 # mysql
 apt-get -y install debconf-utils
