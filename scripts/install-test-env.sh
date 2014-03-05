@@ -2,6 +2,7 @@
 
 SELENIUM="selenium-server-standalone-2.39.0.jar"
 CACHE="/vagrant/.cache"
+export DEBIAN_FRONTEND=noninteractive
 
 
 # prime cache

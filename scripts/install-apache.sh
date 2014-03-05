@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export DEBIAN_FRONTEND=noninteractive
+
 # update repos
 apt-get -y update
 
