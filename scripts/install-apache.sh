@@ -15,7 +15,7 @@ echo 'mysql-server-5.5 mysql-server/root_password password pass' | debconf-set-s
 apt-get -y install mysql-server mysql-client
 
 # apache
-apt-get -y install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql git php5-memcache
+apt-get -y install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-memcache
 echo "ServerName localhost" > /etc/apache2/conf.d/fqdn
 a2enmod php5
 a2enmod rewrite
