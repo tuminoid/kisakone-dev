@@ -2,15 +2,11 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  # use vmware fusion if you have it
-  config.vm.provider "vmware_fusion" do |v, override|
-    override.vm.box = "precise64_fusion"
-    override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
-  end
 
   config.vm.define :kisakone do |config|
-    config.vm.box = "precise32"
-    config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+    # Vagrant 1.5 box naming
+    config.vm.box = "hashicorp/precise64"
+
     config.vm.network :forwarded_port, guest: 80, host: 80
     config.vm.network :private_network, ip: "192.168.59.23"
     config.vm.synced_folder "../kisakone", "/kisakone", type: "nfs"
