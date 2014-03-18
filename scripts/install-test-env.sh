@@ -29,12 +29,12 @@ if [ \$# -gt 0 ]; then
   php-cs-fixer fix \$DIR --fixers=-visibility
 else
   # fix code dirs (not Smarty etc)
-  for D in core data inputhandlers ui; do
+  for D in core data inputhandlers ui sfl; do
     php-cs-fixer fix \$DIR/\$D --fixers=-visibility
   done
 
   # fix files
-  for F in helpers.php index.php inputmapping.php sfl_integration.php; do
+  for F in index.php inputmapping.php; do
     php-cs-fixer fix \$DIR/\$F --fixers=-visibility
   done
 fi
