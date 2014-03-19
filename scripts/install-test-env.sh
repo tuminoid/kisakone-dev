@@ -144,7 +144,7 @@ cat <<EOF >/usr/local/bin/kisakone-run-tests
 #!/bin/bash
 
 cd /vagrant/tests
-/root/nightwatch/bin/nightwatch -c nightwatch-settings.json $@
+sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json $@
 EOF
 chmod 755 /usr/local/bin/kisakone-run-tests
 echo "Test environment setup done!"
