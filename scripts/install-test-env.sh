@@ -143,6 +143,13 @@ service selenium start
 cat <<EOF >/usr/local/bin/kisakone-run-tests
 #!/bin/bash
 
+[ ! -d /kisakone ] && echo "error: /kisakone not found" && exit 1
+
+cat <<EOS | mysql -u root --password=pass
+drop database if exists test_kisakone;
+EOS
+rm /kisakone/config.php
+
 cd /vagrant/tests
 sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json $@
 EOF
