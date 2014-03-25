@@ -144,14 +144,25 @@ cat <<EOF >/usr/local/bin/kisakone-run-tests
 #!/bin/bash
 
 [ ! -d /kisakone ] && echo "error: /kisakone not found" && exit 1
+cd /vagrant/tests
 
-cat <<EOS | mysql -u root --password=pass
+if [ -e /kisakone/config.php ]; then
+  if [ \$# -gt 0 ]; then
+    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup install --groups \$@
+  else
+    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup install
+  fi
+else
+  cat <<EOS | mysql -u root --password=pass
 drop database if exists test_kisakone;
 EOS
-rm /kisakone/config.php
+  if [ \$# -gt 0 ]; then
+    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --groups install \$@
+  else
+    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json
+  fi
+fi
 
-cd /vagrant/tests
-sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json $@
 EOF
 chmod 755 /usr/local/bin/kisakone-run-tests
 echo "Test environment setup done!"
