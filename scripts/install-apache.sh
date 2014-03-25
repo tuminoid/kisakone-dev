@@ -26,7 +26,9 @@ a2ensite kisakone
 service apache2 restart
 
 # use sample configs for quick startup
-cp /kisakone/config_site.php.sample /kisakone/config_site.php
+if [ ! -e /kisakone/config_site.php ]; then
+  cp /kisakone/config_site.php.sample /kisakone/config_site.php
+fi
 
 # restore backups (expects backup file to contain proper "use database;")
 if [ -e "/vagrant/kisakone.sql.backup" ]; then
