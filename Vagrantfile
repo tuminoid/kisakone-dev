@@ -13,8 +13,10 @@ Vagrant.configure("2") do |config|
     config.vm.synced_folder ".", "/vagrant", type: "nfs"
 
     config.vm.provision :shell, :path => "scripts/install-apache.sh"
+    config.vm.provision :shell, :path => "scripts/install-mysql.sh"
     # config.vm.provision :shell, :path => "scripts/install-postfix.sh"
     config.vm.provision :shell, :path => "scripts/install-phpmyadmin.sh"
     config.vm.provision :shell, :path => "scripts/install-test-env.sh"
+    config.vm.provision :shell, :path => "scripts/configure.sh"
   end
 end
