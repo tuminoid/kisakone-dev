@@ -26,23 +26,22 @@ update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60
 cat <<EOF >/etc/nginx/sites-available/kisakone
 server {
   listen 80 default_server;
-
   root /kisakone;
-  index index.php;
 
   # Make site accessible from http://localhost/
   server_name localhost;
   include hhvm.conf;
 
   location / {
-    # First attempt to serve request as file, then
-    # as directory, then fall back to displaying a 404.
-    try_files \$uri \$uri/ =404;
+    index index.php;
+    try_files $uri =404;
+    error_page 404 = @kisakone;
   }
 
-  # deny access to .htaccess files, if Apache's document root
-  # concurs with nginx's one
-  #
+  location @kisakone {
+    rewrite ^(.*)$ /index.php?path=$1&$query_string last;
+  }
+
   location ~ /\.ht {
     deny all;
   }
