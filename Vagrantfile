@@ -13,6 +13,9 @@ Vagrant.configure("2") do |config|
     config.vm.synced_folder "../kisakone", "/kisakone", type: "nfs"
     config.vm.synced_folder ".", "/vagrant", type: "nfs"
 
+    # install common basic tools
+    config.vm.provision :shell, :path => "scripts/install-basics.sh"
+
     # by default, we use apache2 and mod_php as legacy option
     config.vm.provision :shell, :path => "scripts/install-apache.sh"
 

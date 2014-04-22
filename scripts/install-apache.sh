@@ -1,12 +1,7 @@
 #!/bin/sh
+# expects install-basics.sh to be executed before
 
 export DEBIAN_FRONTEND=noninteractive
-
-# update repos
-apt-get -y update
-
-# basics
-apt-get -y install git nano curl wget nmap command-not-found man python-software-properties
 
 # apache
 apt-get -y install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-memcache
