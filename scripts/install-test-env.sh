@@ -42,13 +42,6 @@ EOF
 chmod 755 /usr/local/bin/kisakone-fix-cs
 
 
-# nodejs
-apt-get -y install python-software-properties python g++ make
-add-apt-repository -y ppa:chris-lea/node.js
-apt-get -y update
-apt-get -y install nodejs
-
-
 # nightwatch.js
 apt-get -y install git
 cd ~
