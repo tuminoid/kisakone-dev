@@ -36,8 +36,8 @@ Vagrant.configure("2") do |config|
     # config.vm.provision :shell, :path => "scripts/install-postfix.sh"
 
     # install nightwatch and selenium for running browser based ui tests
-    config.vm.provision :shell, :path => "scripts/install-nodejs.sh"
-    config.vm.provision :shell, :path => "scripts/install-test-env.sh"
+    # config.vm.provision :shell, :path => "scripts/install-nodejs.sh"
+    # config.vm.provision :shell, :path => "scripts/install-test-env.sh"
 
     # install default config and restore backup if present
     config.vm.provision :shell, :path => "scripts/configure.sh"
