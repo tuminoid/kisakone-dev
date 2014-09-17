@@ -28,8 +28,6 @@ Vagrant.configure("2") do |config|
 
     # install mysql as backend
     config.vm.provision :shell, :path => "scripts/install-mysql.sh"
-    # install phpmyadmin for managing mysql
-    config.vm.provision :shell, :path => "scripts/install-phpmyadmin.sh"
 
     # postfix is disabled in development as no email is supposed to be sent
     # uncomment on production install or when developing email features

@@ -4,7 +4,7 @@
 export DEBIAN_FRONTEND=noninteractive
 
 # nginx
-add-apt-repository -y ppa:nginx/stable
+add-apt-repository -y ppa:nginx/development
 apt-get -y update
 apt-get -y install nginx
 
@@ -29,12 +29,12 @@ server {
 
   location / {
     index index.php;
-    try_files $uri =404;
+    try_files \$uri =404;
     error_page 404 = @kisakone;
   }
 
   location @kisakone {
-    rewrite ^(.*)$ /index.php?path=$1&$query_string last;
+    rewrite ^/(.*)\$ /index.php?path=\$1&\$query_string last;
   }
 
   location ~ /\.ht {
