@@ -23,6 +23,9 @@ server {
   listen 80 default_server;
   root /kisakone;
 
+  # use for performance testing only
+  # root /kisakone_local;
+
   # Make site accessible from http://localhost/
   server_name localhost;
   include hhvm.conf;
@@ -47,3 +50,6 @@ EOF
 # configure and restart stuff
 service nginx restart
 service hhvm restart
+
+# install apache2-utils for ab
+apt-get -y install apache2-utils

@@ -11,6 +11,6 @@ echo 'mysql-server-5.5 mysql-server/root_password_again password pass' | debconf
 echo 'mysql-server-5.5 mysql-server/root_password password pass' | debconf-set-selections
 apt-get -y install mysql-server mysql-client
 
-# stellar for development
-apt-get -y install python-pip libmysqlclient-dev python-dev
-pip install stellar mysql-python pymysql
+# stellar for development (not ready enough)
+# apt-get -y install python-pip libmysqlclient-dev python-dev
+# pip install stellar mysql-python pymysql

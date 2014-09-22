@@ -2,6 +2,9 @@
         ServerAdmin webmaster@localhost
 
         DocumentRoot /kisakone
+        # use local for performance_testing
+        # DocumentRoot /kisakone_local
+
         <Directory /kisakone/>
                 Options Indexes FollowSymLinks MultiViews ExecCGI
                 AllowOverride All

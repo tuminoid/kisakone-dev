@@ -22,3 +22,6 @@ echo "phpmyadmin  phpmyadmin/mysql/admin-pass password pass" | debconf-set-selec
 echo "phpmyadmin  phpmyadmin/mysql/method select  unix socket" | debconf-set-selections
 echo "phpmyadmin  phpmyadmin/mysql/admin-user string  root" | debconf-set-selections
 apt-get -y install phpmyadmin
+
+# install apache2-utils for ab
+apt-get -y install apache2-utils

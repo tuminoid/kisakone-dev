@@ -18,16 +18,14 @@ Vagrant.configure("2") do |config|
     # install common basic tools
     config.vm.provision :shell, :path => "scripts/install-basics.sh"
 
+    # install mysql as backend
+    config.vm.provision :shell, :path => "scripts/install-mysql.sh"
+
     # by default, we use apache2 and mod_php as legacy option
     config.vm.provision :shell, :path => "scripts/install-apache.sh"
 
-    # alternatively for way more performance but with no support to
-    # mod_rewrite paths, this will install nginx+hhvm
     # uncomment this and comment out apache if you want it
     # config.vm.provision :shell, :path => "scripts/install-nginx-hhvm.sh"
-
-    # install mysql as backend
-    config.vm.provision :shell, :path => "scripts/install-mysql.sh"
 
     # postfix is disabled in development as no email is supposed to be sent
     # uncomment on production install or when developing email features
