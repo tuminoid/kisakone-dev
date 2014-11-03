@@ -24,7 +24,7 @@ Tips
 After you have once completed the installation, take a backup from your database:
 
 1. Enter Vagrant VM: `vagrant ssh`
-2. Execute `mysqldump -u root -p kisakone > /vagrant/kisakone.sql.backup`
+2. Execute `mysqldump -uroot -ppass kisakone > /vagrant/kisakone.sql.backup`
 
 From now on, when you do `vagrant destroy -f && vagrant up` to start from a clean slate,
 database will be restored from this backup and you don't need to manually do the installation anymore.
