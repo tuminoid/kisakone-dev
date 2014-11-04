@@ -5,15 +5,22 @@
 Vagrant.configure("2") do |config|
 
   config.vm.define :kisakone do |config|
-    # Vagrant 1.5 box naming
-    config.vm.box = "hashicorp/precise64"
+    # Virtualbox box
+    config.vm.provider "virtualbox" do |v, override|
+      config.vm.box = "hashicorp/precise64"
+      # config.vm.network :private_network, ip: "192.168.59.24"
+      # config.vm.synced_folder "../kisakone", "/kisakone", type: "nfs"
+      # config.vm.synced_folder ".", "/vagrant", type: "nfs"
+    end
+
+    # LXC
+    config.vm.provider "lxc" do |v, override|
+      config.vm.box = "fgrehm/precise64-lxc"
+    end
 
     # expose port 80 so you can access kisakone with simple http://localhost
     config.vm.network :forwarded_port, guest: 80, host: 8080
-    # config.vm.network :private_network, ip: "192.168.59.24"
-    # config.vm.synced_folder "../kisakone", "/kisakone", type: "nfs"
     config.vm.synced_folder "../kisakone", "/kisakone"
-    # config.vm.synced_folder ".", "/vagrant", type: "nfs"
 
     # install common basic tools
     config.vm.provision :shell, :path => "scripts/install-basics.sh"
