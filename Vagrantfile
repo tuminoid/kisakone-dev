@@ -7,7 +7,7 @@ Vagrant.configure("2") do |config|
   config.vm.define :kisakone do |config|
     # Virtualbox box
     config.vm.provider "virtualbox" do |v, override|
-      config.vm.box = "hashicorp/precise64"
+      override.vm.box = "hashicorp/precise64"
       # config.vm.network :private_network, ip: "192.168.59.24"
       # config.vm.synced_folder "../kisakone", "/kisakone", type: "nfs"
       # config.vm.synced_folder ".", "/vagrant", type: "nfs"
@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
 
     # LXC
     config.vm.provider "lxc" do |v, override|
-      config.vm.box = "fgrehm/precise64-lxc"
+      override.vm.box = "fgrehm/precise64-lxc"
     end
 
     # expose port 80 so you can access kisakone with simple http://localhost
