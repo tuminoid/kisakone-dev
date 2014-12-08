@@ -29,3 +29,13 @@ After you have once completed the installation, take a backup from your database
 From now on, when you do `vagrant destroy -f && vagrant up` to start from a clean slate,
 database will be restored from this backup and you don't need to manually do the installation anymore.
 
+
+Tests
+=====
+
+There is two types of testing available. Coverage is tiny still, but fixing legacy PHP code testing five years
+after the code has been written into spaghetti, is... not easy.
+
+1. Unit tests: Outside Vagrant, run `./run_unittests.sh`. It executes unittests within running instance.
+2. Functional tests: run `./run_tests.sh`. It executes series of Selenium tests and interacts with the web app UI.
+
