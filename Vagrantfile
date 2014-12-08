@@ -38,6 +38,9 @@ Vagrant.configure("2") do |config|
     # uncomment on production install or when developing email features
     # config.vm.provision :shell, :path => "scripts/install-postfix.sh"
 
+    # install unittest framework
+    config.vm.provision :shell, :path => "scripts/install-phpunit.sh"
+
     # install nightwatch and selenium for running browser based ui tests
     # config.vm.provision :shell, :path => "scripts/install-nodejs.sh"
     # config.vm.provision :shell, :path => "scripts/install-test-env.sh"
