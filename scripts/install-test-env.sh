@@ -1,6 +1,7 @@
 #!/bin/sh
 
-SELENIUM="selenium-server-standalone-2.39.0.jar"
+SELENIUM="selenium-server-standalone-2.44.0.jar"
+SELENIUM_URL="http://selenium-release.storage.googleapis.com/2.44/$SELENIUM"
 CACHE="/vagrant/.cache"
 export DEBIAN_FRONTEND=noninteractive
 
@@ -11,7 +12,7 @@ apt-get -y update
 
 
 # install generic site testing tools
-apt-get -y install linkchecker siege
+apt-get -y install linkchecker siege ab
 
 
 # install php-cs-fixer
@@ -55,9 +56,8 @@ apt-get -y install openjdk-7-jre-headless
 
 
 # selenium, with little caching
-apt-get -y install wget
 mkdir -p /usr/lib/selenium
-(cd $CACHE && wget -q -nc https://selenium.googlecode.com/files/$SELENIUM)
+(cd $CACHE && wget -q -nc $SELENIUM_URL)
 cp $CACHE/$SELENIUM /usr/lib/selenium/
 cat <<EOF >/etc/init.d/selenium
 #!/bin/bash
@@ -73,7 +73,7 @@ cat <<EOF >/etc/init.d/selenium
 ### END INIT INFO
 
 if [ -z "\$1" ]; then
-  echo "`basename \$0` {start|stop}"
+  echo "\`basename \$0\` {start|stop}"
   exit
 fi
 
@@ -110,7 +110,7 @@ cat <<EOF >/etc/init.d/xvfb
 ### END INIT INFO
 
 if [ -z "\$1" ]; then
-  echo "`basename \$0` {start|stop}"
+  echo "\`basename \$0\` {start|stop}"
   exit
 fi
 
@@ -136,11 +136,11 @@ service selenium start
 cat <<EOF >/usr/local/bin/kisakone-run-tests
 #!/bin/bash
 
-[ ! -d /kisakone ] && echo "error: /kisakone not found" && exit 1
+[[ ! -d /kisakone ]] && echo "error: /kisakone not found" && exit 1
 cd /vagrant/tests
 
-if [ -e /kisakone/config.php ]; then
-  if [ \$# -gt 0 ]; then
+if [[ -e /kisakone/config.php ]]; then
+  if [[ \$# -gt 0 ]]; then
     sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup install --groups \$@
   else
     sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup install
@@ -149,7 +149,7 @@ else
   cat <<EOS | mysql -u root --password=pass
 drop database if exists test_kisakone;
 EOS
-  if [ \$# -gt 0 ]; then
+  if [[ \$# -gt 0 ]]; then
     sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --groups install \$@
   else
     sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json
