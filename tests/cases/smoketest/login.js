@@ -15,21 +15,22 @@ module.exports = {
       .click('#loginSubmit')
       .pause(1000)
       .waitForElementVisible('td#content', 200)
-      .assert.containsText('#login_panel', 'Olet kirjautuneena tunnuksella')
+      .assert.containsText('td#content', 'Olet nyt kirjautunut sisään')
+      .assert.containsText('.loginbox', 'Olet kirjautuneena tunnuksella')
   },
 
+/*
   'Check cookie validity' : function (client) {
     client
-      .getCookies(function callback(result) {
-        this.assert.equal(result.value.length, 1);
-//        this.assert.equals(result.value[0].name, 'kisakone_login');
+      .getCookie(function callback(result) {
+        this.assert.equals(result.name, 'kisakone_login');
     })
   },
-
+*/
   'Log out' : function (client) {
     client
-      .waitForElementVisible('#header #login_panel', 200)
-      .assert.containsText('#login_panel', 'Kirjaudu ulos')
+      .waitForElementVisible('#header .loginbox', 200)
+      .assert.containsText('.loginbox', 'Kirjaudu ulos')
       .click('#logout')
       .waitForElementVisible('body', 200)
       .assert.containsText('#login_link', 'Kirjaudu sisään')

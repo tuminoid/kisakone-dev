@@ -16,7 +16,8 @@ module.exports = {
       .click('#loginSubmit')
       .pause(1000)
       .waitForElementVisible('td#content', 200)
-      .assert.containsText('td#content', 'Nimi Paikka Taso Luokat Aika')
+      .assert.containsText('.loginbox', 'Olet kirjautuneena tunnuksella')
+      .assert.containsText('td#content', 'Olet nyt kirjautunut sisään')
   },
 
 /*
