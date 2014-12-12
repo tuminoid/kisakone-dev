@@ -1,14 +1,14 @@
 module.exports = {
   'Verify Kisakone not installed' : function (client) {
     client
-      .url("http://127.0.0.1/doc/install/install.php")
+      .url("http://127.0.1.1/doc/install/install.php")
       .waitForElementVisible('body', 1000)
       .assert.elementPresent('#installform')
   },
 
   'Install Kisakone' : function(client) {
     client
-      .setValue('#db_host', 'localhost')
+      .setValue('#db_host', '127.0.0.1')
       .setValue('#db_user', 'root')
       .setValue('#db_pass', 'pass')
       .setValue('#db_db', 'test_kisakone')
@@ -25,7 +25,7 @@ module.exports = {
 
   'Verify installation' : function (client) {
     client
-      .url("http://127.0.0.1/")
+      .url("http://127.0.1.1/")
       .waitForElementVisible('body', 1000)
       .assert.title('Ajankohtaiset kilpailut - Kisakone')
       .end();

@@ -2,6 +2,8 @@
 
 SELENIUM="selenium-server-standalone-2.44.0.jar"
 SELENIUM_URL="http://selenium-release.storage.googleapis.com/2.44/$SELENIUM"
+CHROMEDRIVER="chromedriver_linux64.zip"
+CHROMEDRIVER_URL="http://chromedriver.storage.googleapis.com/2.13"
 CACHE="/vagrant/.cache"
 export DEBIAN_FRONTEND=noninteractive
 
@@ -12,7 +14,7 @@ apt-get -y update
 
 
 # install generic site testing tools
-apt-get -y install linkchecker siege ab
+apt-get -y install linkchecker siege apache2-utils rsync unzip
 
 
 # install php-cs-fixer
@@ -91,9 +93,19 @@ chmod 755 /etc/init.d/selenium
 update-rc.d selenium defaults
 
 
-# firefox and headless display
-apt-get -y install firefox dbus-x11
-apt-get -y install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi \
+# chrome and chrome chromedriver
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+apt-get -y update
+apt-get -y install google-chrome-stable
+(cd $CACHE && wget -q -nc $CHROMEDRIVER_URL/$CHROMEDRIVER)
+mkdir -p /usr/local/bin
+(cd /usr/local/bin && unzip $CACHE/$CHROMEDRIVER)
+
+
+
+# headless display
+apt-get -y install dbus-x11 xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi \
   xfonts-scalable xfonts-cyrillic xserver-xorg-core
 echo "export DISPLAY=:10" >> ~/.profile
 cat <<EOF >/etc/init.d/xvfb
@@ -137,9 +149,12 @@ cat <<EOF >/usr/local/bin/kisakone-run-tests
 #!/bin/bash
 
 [[ ! -d /kisakone ]] && echo "error: /kisakone not found" && exit 1
+rsync -a --exclude=.git /kisakone /kisakone_local
+chown -R www-data:www-data /kisakone_local
+
 cd /vagrant/tests
 
-if [[ -e /kisakone/config.php ]]; then
+if [[ -e /kisakone_local/config.php ]]; then
   if [[ \$# -gt 0 ]]; then
     sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup install --groups \$@
   else
@@ -159,5 +174,6 @@ fi
 EOF
 chmod 755 /usr/local/bin/kisakone-run-tests
 echo "Test environment setup done!"
-echo "  Run Kisakone UI test suite with 'kisakone-run-tests [category]'!"
+echo "  Run Kisakone Unit Test suite with './run_unittests.sh'!"
+echo "  Run Kisakone UI test suite with './run_tests.sh [category]'!"
 echo "  Fix coding style before committing with 'kisakone-fix-cs [dir]'!"
