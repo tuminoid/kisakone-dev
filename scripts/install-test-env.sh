@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SELENIUM="selenium-server-standalone-2.44.0.jar"
 SELENIUM_URL="http://selenium-release.storage.googleapis.com/2.44/$SELENIUM"
@@ -47,8 +47,14 @@ chmod 755 /usr/local/bin/kisakone-fix-cs
 
 # nightwatch.js
 apt-get -y install git
+cd $CACHE
+if [[ ! -e "nightwatch.git" ]]; then
+  git clone --mirror https://github.com/beatfactor/nightwatch.git
+else
+  (cd nightwatch.git && git remote update)
+fi
 cd ~
-git clone https://github.com/beatfactor/nightwatch.git
+git clone $CACHE/nightwatch.git
 cd nightwatch
 npm install
 
@@ -150,30 +156,23 @@ cat <<EOF >/usr/local/bin/kisakone-run-tests
 
 [[ ! -d /kisakone ]] && echo "error: /kisakone not found" && exit 1
 mkdir -p /kisakone_local
-rsync -a --delete --exclude=.git /kisakone/ /kisakone_local/
+rsync -a --delete --exclude=.git --exclude=config.php --exclude=Smarty/templates_c /kisakone/ /kisakone_local/
 chown -R www-data:www-data /kisakone_local
 
 cd /vagrant/tests
 
-if [[ -e /kisakone_local/config.php ]]; then
-  if [[ \$# -gt 0 ]]; then
-    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup 0001-install --groups \$*
-  else
-    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup 0001-install
-  fi
+if [[ \$# -gt 0 ]]; then
+  sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup 0001-install --groups \$*
 else
   cat <<EOS | mysql -u root --password=pass
 drop database if exists test_kisakone;
 EOS
-  if [[ \$# -gt 0 ]]; then
-    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --groups 0001-install \$*
-  else
-    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json
-  fi
+  rm -f /kisakone_local/config.php
+  sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json
 fi
-
 EOF
 chmod 755 /usr/local/bin/kisakone-run-tests
+
 echo "Test environment setup done!"
 echo "  Run Kisakone Unit Test suite with './run_unittests.sh'!"
 echo "  Run Kisakone UI test suite with './run_tests.sh [category]'!"

@@ -20,7 +20,3 @@ else
   echo "Done! Kisakone is waiting for installation at http://127.0.0.1/doc/install/install.php"
 fi
 
-# copy kisakone to local (performance testing only)
-# you need to change relevant apache/nginx config as well
-cp -r /kisakone /kisakone_local
-

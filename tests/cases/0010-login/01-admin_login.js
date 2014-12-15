@@ -1,13 +1,9 @@
 module.exports = {
-  'Verify site loads' : function (client) {
+  'Log in as admin' : function (client) {
     client
       .url('http://127.0.1.1/')
       .waitForElementVisible('body', 200)
       .assert.title('Ajankohtaiset kilpailut - Kisakone')
-  },
-
-  'Log in as admin' : function (client) {
-    client
       .click('#login_link')
       .waitForElementVisible('#login_form', 200)
       .setValue('#loginUsernameInput', 'admin')
@@ -28,7 +24,7 @@ module.exports = {
   },
 */
 
-  'Log out' : function (client) {
+  'Log out admin' : function (client) {
     client
       .waitForElementVisible('#header .loginbox', 200)
       .assert.containsText('.loginbox', 'Kirjaudu ulos')
