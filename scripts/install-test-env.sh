@@ -149,23 +149,24 @@ cat <<EOF >/usr/local/bin/kisakone-run-tests
 #!/bin/bash
 
 [[ ! -d /kisakone ]] && echo "error: /kisakone not found" && exit 1
-rsync -a --exclude=.git /kisakone /kisakone_local
+mkdir -p /kisakone_local
+rsync -a --delete --exclude=.git /kisakone/ /kisakone_local/
 chown -R www-data:www-data /kisakone_local
 
 cd /vagrant/tests
 
 if [[ -e /kisakone_local/config.php ]]; then
   if [[ \$# -gt 0 ]]; then
-    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup install --groups \$@
+    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup 0001-install --groups \$*
   else
-    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup install
+    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup 0001-install
   fi
 else
   cat <<EOS | mysql -u root --password=pass
 drop database if exists test_kisakone;
 EOS
   if [[ \$# -gt 0 ]]; then
-    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --groups install \$@
+    sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --groups 0001-install \$*
   else
     sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json
   fi
