@@ -10,8 +10,38 @@ a2enmod php5
 a2enmod rewrite
 a2enmod mem_cache
 a2dissite default
-cp /vagrant/kisakone /etc/apache2/sites-available/kisakone
+
+cat <<EOF >/etc/apache2/sites-available/kisakone
+<VirtualHost *:8080>
+        ServerAdmin webmaster@localhost
+
+        DocumentRoot /kisakone
+
+        <Directory /kisakone/>
+                Options Indexes FollowSymLinks MultiViews ExecCGI
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+EOF
 a2ensite kisakone
+
+cat <<EOF >/etc/apache2/ports.conf
+NameVirtualHost *:8080
+Listen 8080
+NameVirtualHost *:8081
+Listen 8081
+EOF
+
 service apache2 restart
 
 # install phpmyadmin
@@ -22,6 +52,3 @@ echo "phpmyadmin  phpmyadmin/mysql/admin-pass password pass" | debconf-set-selec
 echo "phpmyadmin  phpmyadmin/mysql/method select  unix socket" | debconf-set-selections
 echo "phpmyadmin  phpmyadmin/mysql/admin-user string  root" | debconf-set-selections
 apt-get -y install phpmyadmin
-
-# install apache2-utils for ab
-apt-get -y install apache2-utils

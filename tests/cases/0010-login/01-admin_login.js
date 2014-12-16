@@ -1,7 +1,7 @@
 module.exports = {
   'Log in as admin' : function (client) {
     client
-      .url('http://127.0.1.1/')
+      .url(client.launch_url)
       .waitForElementVisible('body', 200)
       .assert.title('Ajankohtaiset kilpailut - Kisakone')
       .click('#login_link')
@@ -35,7 +35,7 @@ module.exports = {
 
   'Remember login as admin' : function (client) {
     client
-      .url('http://127.0.1.1/')
+      .url(client.launch_url)
       .waitForElementVisible('body', 200)
       .assert.title('Ajankohtaiset kilpailut - Kisakone')
       .click('#login_link')

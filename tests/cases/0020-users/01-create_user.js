@@ -1,7 +1,7 @@
 module.exports = {
   'Create an user' : function (client) {
     client
-      .url('http://127.0.1.1/')
+      .url(client.launch_url)
       .waitForElementVisible('body', 200)
       .click('#register_link')
       .waitForElementVisible('#regform', 200)

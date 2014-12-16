@@ -15,8 +15,7 @@ if [ -e "/vagrant/kisakone.sql.backup" ]; then
     echo "Detected DB name: $DB - altering config.php for you ..."
     sed -i -e "s,\"kisakone\";,\"$DB\";," /kisakone/config.php
   fi
-  echo "Done! Kisakone restored from backup at http://127.0.0.1/"
+  echo "Done! Kisakone restored from backup at http://127.0.0.1:8080/"
 else
-  echo "Done! Kisakone is waiting for installation at http://127.0.0.1/doc/install/install.php"
+  echo "Done! Kisakone is waiting for installation at http://127.0.0.1:8080/doc/install/install.php"
 fi
-

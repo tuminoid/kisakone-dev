@@ -51,7 +51,7 @@ cd $CACHE
 if [[ ! -e "nightwatch.git" ]]; then
   git clone --mirror https://github.com/beatfactor/nightwatch.git
 else
-  (cd nightwatch.git && git remote update)
+  (cd nightwatch.git && git fetch --all)
 fi
 cd ~
 git clone $CACHE/nightwatch.git
@@ -150,6 +150,33 @@ service xvfb start
 service selenium start
 
 
+# apache config
+cat <<EOF >/etc/apache2/sites-available/test
+<VirtualHost *:8081>
+        ServerAdmin webmaster@localhost
+
+        DocumentRoot /kisakone_local
+
+        <Directory /kisakone/>
+                Options Indexes FollowSymLinks MultiViews ExecCGI
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        ErrorLog ${APACHE_LOG_DIR}/error_local.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog ${APACHE_LOG_DIR}/access_local.log combined
+</VirtualHost>
+EOF
+a2ensite test
+service apache2 reload
+
+
 # kisakone tests
 cat <<EOF >/usr/local/bin/kisakone-run-tests
 #!/bin/bash
@@ -173,7 +200,7 @@ fi
 EOF
 chmod 755 /usr/local/bin/kisakone-run-tests
 
-echo "Test environment setup done!"
+echo "Test environment setup at 'http://127.0.0.1:8081/!"
 echo "  Run Kisakone Unit Test suite with './run_unittests.sh'!"
 echo "  Run Kisakone UI test suite with './run_tests.sh [category]'!"
 echo "  Fix coding style before committing with 'kisakone-fix-cs [dir]'!"

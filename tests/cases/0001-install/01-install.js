@@ -1,13 +1,10 @@
 module.exports = {
-  'Verify Kisakone not installed' : function (client) {
+  'Install Kisakone' : function (client) {
+    var data = client.globals;
     client
-      .url("http://127.0.1.1/doc/install/install.php")
-      .waitForElementVisible('body', 1000)
+      .url(data.url + "/doc/install/install.php")
+      .waitForElementVisible('body', 200)
       .assert.elementPresent('#installform')
-  },
-
-  'Install Kisakone' : function(client) {
-    client
       .setValue('#db_host', '127.0.0.1')
       .setValue('#db_user', 'root')
       .setValue('#db_pass', 'pass')
@@ -19,14 +16,10 @@ module.exports = {
       .setValue('#ad_lastname', 'God')
       .setValue('#ad_email', 'admin@localhost')
       .click('#formsubmit')
-      .waitForElementVisible('body', 1000)
+      .waitForElementVisible('body', 200)
       .assert.containsText('body', 'Done.')
-  },
-
-  'Verify installation' : function (client) {
-    client
-      .url("http://127.0.1.1/")
-      .waitForElementVisible('body', 1000)
+      .url(client.launch_url)
+      .waitForElementVisible('body', 200)
       .assert.title('Ajankohtaiset kilpailut - Kisakone')
       .end();
   }
