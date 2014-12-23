@@ -98,5 +98,5 @@ module.exports = {
       .assert.containsText('td#content', 'Olet nyt kirjautunut sisään')
       .assert.containsText('.loginbox', 'Olet kirjautuneena tunnuksella')
       .end()
-  },
+  }
 }

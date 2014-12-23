@@ -3,18 +3,19 @@
 TESTS=
 
 usage() {
-  echo "usage: $0 [--clean] [install|admin|user|smoke|all]"
+  echo "usage: $0 [--clean] [unit | install | user | smoke | all]"
   exit 1
 }
 
 while [[ $1 ]]; do
   case $1 in
-    -h|--help|help) usage ;;
-    install) TESTS="$TESTS --clean 0001-install" ;;
-    admin) TESTS="$TESTS 0010-login" ;;
-    user) TESTS="$TESTS --clean 0001-install 0020-users" ;;
-    smoke) TESTS="$TESTS 0010-login" ;;
-    all|*) break ;;
+    unit|unittests) exec ./tools/run_unittests.sh ;;
+
+    install) TESTS="$TESTS --clean install" ;;
+    user) TESTS="$TESTS --clean install user_creation user_profile" ;;
+    smoke) TESTS="$TESTS user_profile" ;;
+    all) ./tools/run_unittests.sh; break ;;
+    -h|--help|help|*) usage ;;
   esac
   shift
 done
