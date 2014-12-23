@@ -177,30 +177,6 @@ a2ensite test
 service apache2 reload
 
 
-# kisakone tests
-cat <<EOF >/usr/local/bin/kisakone-run-tests
-#!/bin/bash
-
-[[ ! -d /kisakone ]] && echo "error: /kisakone not found" && exit 1
-mkdir -p /kisakone_local
-rsync -a --delete --exclude=.git --exclude=config.php --exclude=Smarty/templates_c /kisakone/ /kisakone_local/
-cp /kisakone_local/config_site.php.example /kisakone_local/config_site.php
-chown -R www-data:www-data /kisakone_local
-
-cd /vagrant/tests
-
-if [[ \$# -gt 0 ]]; then
-  sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json \$*
-else
-  cat <<EOS | mysql -u root --password=pass
-drop database if exists test_kisakone;
-EOS
-  rm -f /kisakone_local/config.php
-  sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json
-fi
-EOF
-chmod 755 /usr/local/bin/kisakone-run-tests
-
 echo "Test environment setup at 'http://127.0.0.1:8081/!"
 echo "  Run Kisakone Unit Test suite with './run_unittests.sh'!"
 echo "  Run Kisakone UI test suite with './run_tests.sh [category]'!"
