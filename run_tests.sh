@@ -10,11 +10,11 @@ usage() {
 while [[ $1 ]]; do
   case $1 in
     -h|--help|help) usage ;;
-    install) TESTS="--clean 0001-install" ;;
-    admin) TESTS="0010-login" ;;
-    user) TESTS="--clean 0001-install 0020-users" ;;
-    smoke) TESTS="0010-login" ;;
-    all|*) TESTS="--clean"; break ;;
+    install) TESTS="$TESTS --clean 0001-install" ;;
+    admin) TESTS="$TESTS 0010-login" ;;
+    user) TESTS="$TESTS --clean 0001-install 0020-users" ;;
+    smoke) TESTS="$TESTS 0010-login" ;;
+    all|*) break ;;
   esac
   shift
 done

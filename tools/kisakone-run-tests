@@ -24,16 +24,17 @@ debug() {
 debug "$0 $@"
 while [[ $1 ]]; do
   case $1 in
-    --clean) shift; clean_up ;;
-    *) break ;;
+    --clean) clean_up ;;
+    *) TESTS="$TESTS $1" ;;
   esac
+  shift
 done
 
 sync
 cd /vagrant/tests
-debug "TEST = $1"
-if [[ $1 ]]; then
-  for TEST in $@; do
+debug "TEST = $TESTS"
+if [[ $TESTS ]]; then
+  for TEST in $TESTS; do
     debug "Running $TEST"
     /root/nightwatch/bin/nightwatch -c nightwatch-settings.json -g $TEST
   done
