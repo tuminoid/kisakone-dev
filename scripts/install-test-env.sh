@@ -184,6 +184,7 @@ cat <<EOF >/usr/local/bin/kisakone-run-tests
 [[ ! -d /kisakone ]] && echo "error: /kisakone not found" && exit 1
 mkdir -p /kisakone_local
 rsync -a --delete --exclude=.git --exclude=config.php --exclude=Smarty/templates_c /kisakone/ /kisakone_local/
+cp /kisakone_local/config_site.php.example /kisakone_local/config_site.php
 chown -R www-data:www-data /kisakone_local
 
 cd /vagrant/tests
