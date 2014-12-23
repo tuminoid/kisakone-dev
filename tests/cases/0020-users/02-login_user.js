@@ -26,7 +26,7 @@ module.exports = {
       .assert.containsText('td#content', 'Voit vaihtaa salasanasi syöttämällä nykyisen')
       .setValue('#current', 'test')
       .setValue('#password1', 'pass')
-      .setValue('input[name="password2"]', 'pass')
+      .setValue('input[name=password2]', 'pass')
       .submitForm('form#regform')
       .waitForElementVisible('td#content', 200)
       .assert.containsText('td#content', 'Tietojen muokkaus on tehty onnistuneesti.')
@@ -51,7 +51,7 @@ module.exports = {
       .setValue('#loginUsernameInput', 'testuser')
       .setValue('#loginPassword', 'pass')
       .click('#loginSubmit')
-      .pause(1000)
+      .pause(200)
       .waitForElementVisible('td#content', 200)
       .assert.containsText('td#content', 'Olet nyt kirjautunut sisään')
       .assert.containsText('.loginbox', 'Olet kirjautuneena tunnuksella')
@@ -81,6 +81,7 @@ module.exports = {
       .click('#logout')
       .waitForElementVisible('body', 200)
       .assert.containsText('#login_link', 'Kirjaudu sisään')
+      .end()
   },
 
   'Log in with old password' : function (client) {
@@ -90,9 +91,9 @@ module.exports = {
       .click('#login_link')
       .waitForElementVisible('#login_form', 200)
       .setValue('#loginUsernameInput', 'testuser')
-      .setValue('#loginPassword', 'pass')
+      .setValue('#loginPassword', 'test')
       .click('#loginSubmit')
-      .pause(1000)
+      .pause(200)
       .waitForElementVisible('td#content', 200)
       .assert.containsText('td#content', 'Olet nyt kirjautunut sisään')
       .assert.containsText('.loginbox', 'Olet kirjautuneena tunnuksella')
