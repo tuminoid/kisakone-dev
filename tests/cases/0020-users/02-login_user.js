@@ -19,16 +19,14 @@ module.exports = {
     client
       .assert.containsText('.loginbox', 'Omat tiedot')
       .click('#loginMyInfo')
-      .waitForElementVisible('body', 200)
-      .assert.containsText('body', 'Käyttäjän testuser tiedot')
-      //.waitForElementVisible('td#content', 200)
-      //.assert.containsText('td#content', 'Käyttäjän testuser tiedot')
-      .click('submenu1 ul li:second a')
+      .waitForElementVisible('td#content', 200)
+      .assert.containsText('td#content', 'Käyttäjän testuser tiedot')
+      .click('td#submenucontainer ul.submenu.submenu1 li:nth-child(2) a')
       .waitForElementVisible('td#content', 200)
       .assert.containsText('td#content', 'Voit vaihtaa salasanasi syöttämällä nykyisen')
       .setValue('#current', 'test')
       .setValue('#password1', 'pass')
-      .setValue('#password2', 'pass')
+      .setValue('input[name="password2"]', 'pass')
       .submitForm('form#regform')
       .waitForElementVisible('td#content', 200)
       .assert.containsText('td#content', 'Tietojen muokkaus on tehty onnistuneesti.')
@@ -41,6 +39,7 @@ module.exports = {
       .click('#logout')
       .waitForElementVisible('body', 200)
       .assert.containsText('#login_link', 'Kirjaudu sisään')
+      .end()
   },
 
   'Log in with new password' : function (client) {
@@ -60,15 +59,16 @@ module.exports = {
 
   'Change password again' : function (client) {
     client
+      .assert.containsText('.loginbox', 'Omat tiedot')
       .click('#loginMyInfo')
       .waitForElementVisible('td#content', 200)
       .assert.containsText('td#content', 'Käyttäjän testuser tiedot')
-      .click('submenu1 ul li:second a')
+      .click('td#submenucontainer ul.submenu.submenu1 li:nth-child(2) a')
       .waitForElementVisible('td#content', 200)
       .assert.containsText('td#content', 'Voit vaihtaa salasanasi syöttämällä nykyisen')
       .setValue('#current', 'pass')
       .setValue('#password1', 'test')
-      .setValue('#password2', 'test')
+      .setValue('input[name=password2]', 'test')
       .submitForm('form#regform')
       .waitForElementVisible('td#content', 200)
       .assert.containsText('td#content', 'Tietojen muokkaus on tehty onnistuneesti.')

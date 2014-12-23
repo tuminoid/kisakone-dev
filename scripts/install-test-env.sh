@@ -190,7 +190,7 @@ chown -R www-data:www-data /kisakone_local
 cd /vagrant/tests
 
 if [[ \$# -gt 0 ]]; then
-  sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json --skipgroup 0001-install --groups \$*
+  sudo /root/nightwatch/bin/nightwatch -c nightwatch-settings.json \$*
 else
   cat <<EOS | mysql -u root --password=pass
 drop database if exists test_kisakone;
