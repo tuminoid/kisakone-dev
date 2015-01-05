@@ -14,7 +14,7 @@ while [[ $1 ]]; do
     install) TESTS="$TESTS --clean install" ;;
     user) TESTS="$TESTS --clean install user_creation user_profile" ;;
     smoke) TESTS="$TESTS user_profile" ;;
-    all) ./tools/run_unittests.sh; break ;;
+    all) ./tools/run_unittests.sh; TESTS=; break ;;
     -h|--help|help|*) usage ;;
   esac
   shift
