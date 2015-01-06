@@ -157,20 +157,20 @@ cat <<EOF >/etc/apache2/sites-available/test
 
         DocumentRoot /kisakone_local
 
-        <Directory /kisakone/>
+        <Directory /kisakone_local/>
                 Options Indexes FollowSymLinks MultiViews ExecCGI
                 AllowOverride All
                 Order allow,deny
                 allow from all
         </Directory>
 
-        ErrorLog ${APACHE_LOG_DIR}/error_local.log
+        ErrorLog \${APACHE_LOG_DIR}/error_local.log
 
         # Possible values include: debug, info, notice, warn, error, crit,
         # alert, emerg.
         LogLevel warn
 
-        CustomLog ${APACHE_LOG_DIR}/access_local.log combined
+        CustomLog \${APACHE_LOG_DIR}/access_local.log combined
 </VirtualHost>
 EOF
 a2ensite test
