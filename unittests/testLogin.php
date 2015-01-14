@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../kisakone/core/crypto.php';
+require_once '../../kisakone/core/login.php';
 
 class CryptoTest extends PHPUnit_Framework_TestCase
 {

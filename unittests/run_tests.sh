@@ -1,3 +1,3 @@
 #!/bin/sh
 
-phpunit ./testCrypto.php
+phpunit ./testLogin.php

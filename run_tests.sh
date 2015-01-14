@@ -21,3 +21,4 @@ while [[ $1 ]]; do
 done
 
 vagrant ssh -- "sudo /vagrant/tools/kisakone-run-tests $TESTS"
+vagrant ssh -- "sudo tail -20 /var/log/apache2/error_local.log"
