@@ -4,7 +4,7 @@
 export DEBIAN_FRONTEND=noninteractive
 
 # apache
-apt-get -y install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-memcache php5-curl
+apt-get -y install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-memcache php5-curl php5-xdebug
 echo "ServerName localhost" > /etc/apache2/conf.d/fqdn
 a2enmod php5
 a2enmod rewrite
