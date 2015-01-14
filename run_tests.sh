@@ -4,7 +4,7 @@ TESTS=
 
 usage() {
   echo "usage: $0 [--clean] [unit | install | user | smoke | all]"
-  exit 1
+  exit 0
 }
 
 while [[ $1 ]]; do
@@ -20,5 +20,6 @@ while [[ $1 ]]; do
   shift
 done
 
+vagrant ssh -- "sudo rm -f /var/log/apache2/error_local.log; sudo service apache2 restart"
 vagrant ssh -- "sudo /vagrant/tools/kisakone-run-tests $TESTS"
-vagrant ssh -- "sudo tail -20 /var/log/apache2/error_local.log"
+vagrant ssh -- "sudo cat /var/log/apache2/error_local.log"
