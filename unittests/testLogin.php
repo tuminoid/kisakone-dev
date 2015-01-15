@@ -298,16 +298,6 @@ class LoginTest extends PHPUnit_Framework_TestCase
   public function test_invalid_calls() {
     $this->assertEquals(
       null,
-      GenerateHash("foobar12", null)
-    );
-
-    $this->assertEquals(
-      null,
-      GenerateHash("foobar12", "")
-    );
-
-    $this->assertEquals(
-      null,
       GenerateHash("foobar12", "rc4")
     );
 
