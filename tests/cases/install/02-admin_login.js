@@ -7,7 +7,7 @@ module.exports = {
       .click('#login_link')
       .waitForElementVisible('#login_form', 200)
       .setValue('#loginUsernameInput', 'admin')
-      .setValue('#loginPassword', 'apass')
+      .setValue('#loginPassword', 'adminpass')
       .click('#loginSubmit')
       .pause(1000)
       .waitForElementVisible('td#content', 200)
@@ -15,7 +15,7 @@ module.exports = {
       .assert.containsText('.loginbox', 'Olet kirjautuneena tunnuksella')
   },
 
-/*
+/* TODO
   'Check cookie validity' : function (client) {
     client
       .getCookie(function callback(result) {
@@ -41,7 +41,7 @@ module.exports = {
       .click('#login_link')
       .waitForElementVisible('#login_form', 200)
       .setValue('#loginUsernameInput', 'admin')
-      .setValue('#loginPassword', 'apass')
+      .setValue('#loginPassword', 'adminpass')
       .click('#loginRememberMe')
       .click('#loginSubmit')
       .pause(1000)
@@ -50,7 +50,7 @@ module.exports = {
       .assert.containsText('td#content', 'Olet nyt kirjautunut sisään')
   },
 
-/*
+/* TODO
   'Check cookie validity' : function (client) {
     client
       .getCookie(function callback(result) {

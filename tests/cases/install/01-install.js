@@ -11,7 +11,7 @@ module.exports = {
       .setValue('#db_db', 'test_kisakone')
       .setValue('#db_prefix', 'test_')
       .setValue('#ad_user', 'admin')
-      .setValue('#ad_pass', 'apass')
+      .setValue('#ad_pass', 'adminpass')
       .setValue('#ad_firstname', 'Admin')
       .setValue('#ad_lastname', 'God')
       .setValue('#ad_email', 'admin@localhost')
