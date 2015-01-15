@@ -7,6 +7,20 @@ usage() {
   exit 0
 }
 
+check_syntax() {
+  which php >/dev/null || return 0
+
+  for PHP in $(find ../kisakone -name '*.php'); do
+    if ! php -l $PHP >/dev/null; then
+      php -l $PHP
+      exit 1
+    fi
+  done
+}
+
+clear
+check_syntax
+
 while [[ $1 ]]; do
   case $1 in
     unit|unittests) exec ./tools/run_unittests.sh ;;
