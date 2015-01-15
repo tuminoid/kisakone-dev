@@ -32,8 +32,8 @@ while [[ $1 ]]; do
     unit|unittests) check_syntax unittests; exec ./tools/run_unittests.sh ;;
     syntax) check_syntax ../kisakone ;;
 
-    install) TESTS="$TESTS --clean install admin" ;;
-    user) TESTS="$TESTS --clean install user_creation user_profile" ;;
+    install) TESTS="$TESTS --clean 0install admin" ;;
+    user) TESTS="$TESTS --clean 0install user_creation user_profile" ;;
     smoke) TESTS="$TESTS user_profile" ;;
     all) check_syntax ../kisakone; ./tools/run_unittests.sh; TESTS=; break ;;
     -h|--help|help|*) usage ;;
