@@ -69,7 +69,7 @@ class LoginTest extends PHPUnit_Framework_TestCase
   public function test_valid_IsValidSalt() {
     $this->assertEquals(
       true,
-      IsValidSalt("12345678901234567890123456789012")
+      IsValidSalt("123456789012345678901234567890==")
     );
   }
 
