@@ -11,26 +11,29 @@ check_syntax() {
   DIR=$1
   which php >/dev/null || return 0
 
+  # stupid osx hack
+  if [[ $(uname -s) == "Darwin" ]]; then
+    FILES=$(find $DIR -name '*.php' -exec stat -f '%m %N' {} \; | sort -nr | cut -f2 -d' ' | grep -v "Smarty")
+  else
+    FILES=$(find $DIR -name '*.php' -printf "%C@ %p\n" | sort -r | cut -f2 -d' ' | grep -v "Smarty")
+  fi
 
+  # check syntax in modification time ordered
   echo -n "syntax check: "
-  for PHP in $(find $DIR -name '*.php'); do
-    if echo $PHP | grep -q "Smarty/templates"; then
-      continue
-    fi
-
+  for PHP in $FILES; do
     echo -n "."
     if ! php -l $PHP >/dev/null; then
       php -l $PHP
       exit 1
     fi
   done
-  echo " : ok"
+  echo " ok"
 }
 
 while [[ $1 ]]; do
   case $1 in
     unit|unittests) check_syntax unittests; exec ./tools/run_unittests.sh ;;
-    syntax) check_syntax ../kisakone ;;
+    syntax) check_syntax ../kisakone; exit $? ;;
 
     install) TESTS="$TESTS --clean 0install admin" ;;
     user) TESTS="$TESTS --clean 0install user_creation user_profile" ;;
