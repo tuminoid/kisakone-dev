@@ -39,7 +39,7 @@ module.exports = {
       .setValue('#loginUsernameInput', 'testuser')
       .setValue('#loginPassword', 'testpass')
       .click('#loginSubmit')
-      .pause(1000)
+      .pause(200)
       .waitForElementVisible('td#content', 200)
       .assert.containsText('td#content', 'Olet nyt kirjautunut sisään')
       .assert.containsText('.loginbox', 'Olet kirjautuneena tunnuksella')
