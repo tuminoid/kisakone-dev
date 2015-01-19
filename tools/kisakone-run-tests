@@ -2,7 +2,7 @@
 
 clean_up() {
   cat <<EOS | mysql -u root --password=pass
-drop database if exists test_kisakone;
+DROP DATABASE IF EXISTS test_kisakone;
 EOS
   rm -f /kisakone_local/config.php
 }
@@ -11,7 +11,7 @@ sync() {
   [[ ! -d /kisakone ]] && echo "error: /kisakone not found" && exit 1
   mkdir -p /kisakone_local
   rsync -a --delete --exclude=.git --exclude=config.php --exclude=Smarty/templates_c /kisakone/ /kisakone_local/
-  cp /kisakone_local/config_site.php.example /kisakone_local/config_site.php
+  cp /vagrant/files/config_site.php /kisakone_local/config_site.php
   chown -R www-data:www-data /kisakone_local
 }
 
@@ -39,7 +39,7 @@ if [[ $TESTS ]]; then
     /root/nightwatch/bin/nightwatch -c nightwatch-settings.json -g $TEST
   done
 else
-  debug "Running all"
+  debug "Running all tests"
   clean_up
   /root/nightwatch/bin/nightwatch -c nightwatch-settings.json
 fi
