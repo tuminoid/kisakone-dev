@@ -52,3 +52,9 @@ echo "phpmyadmin  phpmyadmin/mysql/admin-pass password pass" | debconf-set-selec
 echo "phpmyadmin  phpmyadmin/mysql/method select  unix socket" | debconf-set-selections
 echo "phpmyadmin  phpmyadmin/mysql/admin-user string  root" | debconf-set-selections
 apt-get -y install phpmyadmin
+
+# install apc opcache
+apt-get -y install libpcre3-dev php5-dev php-pear make
+pecl install apc
+echo "extension=apc.so" >> /etc/php5/apache2/php.ini
+service apache2 restart
