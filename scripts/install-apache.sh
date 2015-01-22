@@ -55,6 +55,6 @@ apt-get -y install phpmyadmin
 
 # install apc opcache
 apt-get -y install libpcre3-dev php5-dev php-pear make
-echo -e "no\nno\nno\nno\nno\n" | pecl install apc
+echo -e "no\nno\nno\nno\nno\n" | pecl install -f apc
 echo "extension=apc.so" >> /etc/php5/apache2/php.ini
 service apache2 restart
