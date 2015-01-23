@@ -20,8 +20,17 @@ Vagrant.configure("2") do |config|
 
     # expose port 80 so you can access kisakone with simple http://localhost
     config.vm.network :forwarded_port, guest: 8080, host: 8080
-    config.vm.network :forwarded_port, guest: 8081, host: 8081
     config.vm.synced_folder "../kisakone", "/kisakone"
+
+    # this will have access to /kisakone_local test environment after
+    # you have executed "./run_tests.sh all"
+    config.vm.network :forwarded_port, guest: 8081, host: 8081
+
+    # if we have sfl-api available, mount that too
+    if File.directory?("../../sfl/sfl-api")
+      config.vm.network :forwarded_port, guest: 8082, host: 8082
+      config.vm.synced_folder "../../sfl/sfl-api", "/var/www/sfl-api"
+    end
 
     # install common basic tools
     config.vm.provision :shell, :path => "scripts/install-basics.sh"
