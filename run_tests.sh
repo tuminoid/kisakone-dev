@@ -37,7 +37,7 @@ while [[ $1 ]]; do
 
     install) TESTS="$TESTS --clean 0install admin" ;;
     user) TESTS="$TESTS --clean 0install user_creation user_profile" ;;
-    smoke) TESTS="$TESTS user_profile" ;;
+    event) TESTS="$TESTS --clean 0install event" ;;
     all) check_syntax ../kisakone; ./tools/run_unittests.sh; TESTS=; break ;;
     -h|--help|help|*) usage ;;
   esac
