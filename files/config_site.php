@@ -1,7 +1,7 @@
 <?php
 /**
  * Suomen Frisbeegolfliitto Kisakone
- * Copyright 2013-2014 Tuomo Tanskanen <tumi@tumi.fi>
+ * Copyright 2013-2015 Tuomo Tanskanen <tuomo@tanskanen.org>
  *
  * Site wide configuration options.
  *
@@ -21,11 +21,12 @@
  * along with Kisakone.  If not, see <http://www.gnu.org/licenses/>.
  * */
 
+global $settings;
+
 /*
  * EMAIL
  * Set enabled to true to send emails about certain actions
  */
-global $settings;
 $settings['EMAIL_ENABLED'] = false;
 $settings['EMAIL_SENDER'] = "no-reply@kisakone.localhost";
 $settings['EMAIL_MAILER'] = "Kisakone localhost";
@@ -39,7 +40,10 @@ $settings['EMAIL_MAILER'] = "Kisakone localhost";
  * for data, which fails unless you are the SFL.
  */
 define("IGNORE_PAYMENTS", true);
-define("USE_SFL_PAYMENTS", false);
+
+$settings['SFL_ENABLED'] = false;
+$settings['SFL_USERNAME'] = "";
+$settings['SFL_PASSWORD'] = "";
 
 // defines for licences, mandated by SFL membership database
 define("LICENSE_MEMBERSHIP", 1);
@@ -62,7 +66,7 @@ $settings["PDGA_PASSWORD"] = "";
  */
 // php 5.3 spits out deprecation warnings without this
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 // mysql debugging
 $settings['DB_ERROR_LOGGING'] = true;
