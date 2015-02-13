@@ -19,3 +19,8 @@ service ntp restart
 # 12.04 has python-software-properties for add-apt-repository,
 # which 14.04 handles with software-properties-common
 apt-get -y install python-software-properties || true
+
+# install memcached
+apt-get -y install memcached php5-memcached
+sed -i -e 's,-m 64,-m 128,' /etc/memcached.conf
+service memcached restart

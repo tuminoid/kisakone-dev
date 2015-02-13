@@ -1,17 +1,27 @@
 #!/bin/bash
 
+export DEBIAN_FRONTEND=noninteractive
+
 SELENIUM="selenium-server-standalone-2.44.0.jar"
 SELENIUM_URL="http://selenium-release.storage.googleapis.com/2.44/$SELENIUM"
 CHROMEDRIVER="chromedriver_linux64.zip"
 CHROMEDRIVER_URL="http://chromedriver.storage.googleapis.com/2.13"
 CACHE="/vagrant/.cache"
-export DEBIAN_FRONTEND=noninteractive
 
+# quit down the whine
+mkdir -p /kisakone_local
 
 # prime cache
 mkdir -p $CACHE
 apt-get -y update
 
+
+# configure xdebug
+apt-get -y install php5-xdebug
+cat <<EOF >>/etc/php5/apache2/php.ini
+xdebug.profiler_enable_trigger = 1
+EOF
+service apache2 restart
 
 # install generic site testing tools
 apt-get -y install linkchecker siege apache2-utils rsync unzip
@@ -178,6 +188,5 @@ service apache2 reload
 
 
 echo "Test environment setup at 'http://127.0.0.1:8081/!"
-echo "  Run Kisakone Unit Test suite with './run_unittests.sh'!"
+echo "  Run Kisakone Unit Test suite with './run_tests.sh unit'!"
 echo "  Run Kisakone UI test suite with './run_tests.sh [category]'!"
-echo "  Fix coding style before committing with 'kisakone-fix-cs [dir]'!"

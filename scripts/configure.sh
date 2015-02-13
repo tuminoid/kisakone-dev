@@ -9,6 +9,11 @@ fi
 if [ -e "/vagrant/kisakone.sql.backup" ]; then
   echo "Restoring backup SQL from: kisakone.sql.backup"
   mysql -u root --password=pass < /vagrant/kisakone.sql.backup
+
+  echo "Resetting root password to pass"
+  mysql -uroot -ppass <<< "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY 'pass'; FLUSH PRIVILEGES;"
+
+  echo "Setting up config.php"
   cp /kisakone/config.php.example /kisakone/config.php
   DB=$(cat /vagrant/kisakone.sql.backup | grep "Current Database" | grep kisakone | grep -v "next" | grep -v "test" | head -1 | cut -f2 -d'`' | cut -f1 -d'`')
   if [ "$DB" != "" ]; then

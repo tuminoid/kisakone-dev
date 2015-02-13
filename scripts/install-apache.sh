@@ -4,11 +4,13 @@
 export DEBIAN_FRONTEND=noninteractive
 
 # apache
-apt-get -y install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-memcache php5-curl php5-xdebug php5-mcrypt php5-memcache
+apt-get -y install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-curl php5-mcrypt
 echo "ServerName localhost" > /etc/apache2/conf.d/fqdn
 a2enmod php5
 a2enmod rewrite
 a2enmod mem_cache
+a2dismod status
+a2dismod ssl
 a2dissite default
 
 cat <<EOF >/etc/apache2/sites-available/kisakone
@@ -64,7 +66,6 @@ Listen 8081
 NameVirtualHost *:8082
 Listen 8082
 EOF
-
 service apache2 restart
 
 # install phpmyadmin
