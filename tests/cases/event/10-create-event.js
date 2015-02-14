@@ -1,3 +1,5 @@
+/* this is TODO, fails now */
+
 module.exports = {
   'Log in as admin' : function (client) {
     client
