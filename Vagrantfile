@@ -8,14 +8,18 @@ Vagrant.configure("2") do |config|
     # Virtualbox box
     config.vm.provider "virtualbox" do |v, override|
       override.vm.box = "hashicorp/precise64"
-      # config.vm.network :private_network, ip: "192.168.59.24"
-      # config.vm.synced_folder "../kisakone", "/kisakone", type: "nfs"
-      # config.vm.synced_folder ".", "/vagrant", type: "nfs"
     end
 
     # LXC
     config.vm.provider "lxc" do |v, override|
       override.vm.box = "fgrehm/precise64-lxc"
+    end
+
+    # for vagrant-cachier
+    if Vagrant.has_plugin?("vagrant-cachier")
+      config.cache.scope = :machine
+      # config.cache.synced_folder_opts = { type: :nfs, mount_options: ['rw', 'vers=3', 'tcp', 'nolock'] }
+      config.cache.synced_folder_opts = { }
     end
 
     # expose port 80 so you can access kisakone with simple http://localhost
@@ -30,6 +34,11 @@ Vagrant.configure("2") do |config|
     if File.directory?("../../sfl/sfl-api")
       config.vm.network :forwarded_port, guest: 8082, host: 8082
       config.vm.synced_folder "../../sfl/sfl-api", "/var/www/sfl-api"
+    end
+
+    # if we have pdgadb available, mount that too
+    if File.directory?("../../sfl/pdgadb")
+      config.vm.synced_folder "../../sfl/pdgadb", "/var/www/pdgadb"
     end
 
     # install common basic tools
