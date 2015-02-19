@@ -16,13 +16,6 @@ mkdir -p $CACHE
 apt-get -y update
 
 
-# configure xdebug
-apt-get -y install php5-xdebug
-cat <<EOF >>/etc/php5/apache2/php.ini
-xdebug.profiler_enable_trigger = 1
-EOF
-service apache2 restart
-
 # install generic site testing tools
 apt-get -y install linkchecker siege apache2-utils rsync unzip
 
@@ -98,7 +91,8 @@ fi
 case "\$1" in
 start)
   export DISPLAY=:10
-  java -jar /usr/lib/selenium/$SELENIUM -forcedBrowserModeRestOfLine "*firefox /usr/bin/firefox" 2>&1 >/var/log/selenium.log &
+  # java -jar /usr/lib/selenium/$SELENIUM -forcedBrowserModeRestOfLine "*firefox /usr/bin/firefox" 2>&1 >/var/log/selenium.log &
+  java -jar /usr/lib/selenium/$SELENIUM 2>&1 >/var/log/selenium.log &
 ;;
 stop)
   killall java
@@ -160,8 +154,20 @@ service xvfb start
 service selenium start
 
 
-# apache config
-cat <<EOF >/etc/apache2/sites-available/test
+if [[ -d /etc/apache2/sites-enabled ]]; then
+  # configure xdebug
+  apt-get -y install php5-xdebug
+  cat <<EOF >>/etc/php5/apache2/php.ini
+xdebug.profiler_enable_trigger = 1
+EOF
+
+  # php-unit
+  add-apt-repository -y ppa:team-mayhem/ppa
+  apt-get -y update
+  apt-get -y install php-phpunit-phpunit
+
+  # apache config
+  cat <<EOF >/etc/apache2/sites-available/local
 <VirtualHost *:8081>
         ServerAdmin webmaster@localhost
 
@@ -183,9 +189,44 @@ cat <<EOF >/etc/apache2/sites-available/test
         CustomLog \${APACHE_LOG_DIR}/access_local.log combined
 </VirtualHost>
 EOF
-a2ensite test
-service apache2 reload
+  a2ensite local
+  service apache2 restart
+fi
 
+if [[ -d /etc/nginx/sites-enabled ]]; then
+  cat <<EOF >/etc/nginx/sites-available/local
+server {
+  listen 8081;
+  root /kisakone_local;
+
+  # Make site accessible from http://localhost/
+  server_name localhost;
+
+  error_log /var/log/nginx/error_local.log;
+  access_log /var/log/nginx/access_local.log;
+
+  include hhvm.conf;
+
+  location = /favicon.ico { log_not_found off; access_log off; }
+  location = /robots.txt  { log_not_found off; access_log off; }
+
+  location ~ /\.ht {
+    deny all;
+  }
+
+  location ~* \.(js|css|svg|png|jpe?g|ico)\$ {
+    try_files \$uri =404;
+  }
+
+  location / {
+    rewrite ^/(.*)\$ /index.php?path=\$1&\$query_string last;
+  }
+}
+EOF
+  (cd /etc/nginx/sites-enabled; ln -s ../sites-available/local)
+  nginx -t
+  service nginx reload
+fi
 
 echo "Test environment setup at 'http://127.0.0.1:8081/!"
 echo "  Run Kisakone Unit Test suite with './run_tests.sh unit'!"

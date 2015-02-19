@@ -44,6 +44,6 @@ while [[ $1 ]]; do
   shift
 done
 
-vagrant ssh -- "sudo rm -f /var/log/apache2/error_local.log; sudo service apache2 restart"
+vagrant ssh -- "sudo rm -f /var/log/*/error_local.log; sudo service apache2 reload 2>/dev/null; sudo service nginx reload 2>/dev/null"
 vagrant ssh -- "sudo /vagrant/tools/kisakone-run-tests $TESTS"
-vagrant ssh -- "sudo cat /var/log/apache2/error_local.log"
+vagrant ssh -- "sudo cat /var/log/*/error_local.log"

@@ -4,11 +4,10 @@
 export DEBIAN_FRONTEND=noninteractive
 
 # apache
-apt-get -y install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-curl php5-mcrypt
+apt-get -y install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-curl php5-mcrypt php5-memcached
 echo "ServerName localhost" > /etc/apache2/conf.d/fqdn
 a2enmod php5
 a2enmod rewrite
-a2enmod mem_cache
 a2dismod status
 a2dismod ssl
 a2dissite default
@@ -55,6 +54,27 @@ cat <<EOF >/etc/apache2/sites-available/kisakone
 
         CustomLog \${APACHE_LOG_DIR}/api_access.log combined
 </VirtualHost>
+
+<VirtualHost *:8083>
+        ServerAdmin webmaster@localhost
+
+        DocumentRoot /var/www/rekisteri
+
+        <Directory /var/www/rekisteri/>
+                Options Indexes FollowSymLinks MultiViews ExecCGI
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        ErrorLog \${APACHE_LOG_DIR}/rekisteri_error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog \${APACHE_LOG_DIR}/rekisteri_access.log combined
+</VirtualHost>
 EOF
 a2ensite kisakone
 
@@ -65,6 +85,8 @@ NameVirtualHost *:8081
 Listen 8081
 NameVirtualHost *:8082
 Listen 8082
+NameVirtualHost *:8083
+Listen 8083
 EOF
 service apache2 restart
 

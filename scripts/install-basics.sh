@@ -21,6 +21,6 @@ service ntp restart
 apt-get -y install python-software-properties || true
 
 # install memcached
-apt-get -y install memcached php5-memcached
+apt-get -y install memcached
 sed -i -e 's,-m 64,-m 128,' /etc/memcached.conf
 service memcached restart

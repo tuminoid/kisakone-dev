@@ -20,34 +20,96 @@ update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60
 # setup kisakone
 cat <<EOF >/etc/nginx/sites-available/kisakone
 server {
-  listen 80 default_server;
+  listen 8080 default_server;
   root /kisakone;
-
-  # use for performance testing only
-  # root /kisakone_local;
 
   # Make site accessible from http://localhost/
   server_name localhost;
+
   include hhvm.conf;
 
-  location / {
-    index index.php;
-    try_files \$uri =404;
-    error_page 404 = @kisakone;
-  }
+  error_log /var/log/nginx/error_kisakone.log;
+  access_log /var/log/nginx/access_kisakone.log;
 
-  location @kisakone {
-    rewrite ^/(.*)\$ /index.php?path=\$1&\$query_string last;
-  }
+  location = /favicon.ico { log_not_found off; access_log off; }
+  location = /robots.txt  { log_not_found off; access_log off; }
 
   location ~ /\.ht {
     deny all;
+  }
+
+  location ~* \.(js|css|svg|png|jpe?g|ico)\$ {
+    try_files \$uri =404;
+  }
+
+  location / {
+    rewrite ^/(.*)\$ /index.php?path=\$1&\$query_string last;
   }
 }
 EOF
 (cd /etc/nginx/sites-enabled; rm -f default; ln -s ../sites-available/kisakone)
 
+cat <<EOF >/etc/nginx/sites-available/api
+server {
+  listen 8082;
+  root /var/www/sfl-api;
+
+  # Make site accessible from http://localhost/
+  server_name localhost;
+
+  error_log /var/log/nginx/error_api.log;
+  access_log /var/log/nginx/access_api.log;
+
+  include hhvm.conf;
+
+  location = /favicon.ico { log_not_found off; access_log off; }
+  location = /robots.txt  { log_not_found off; access_log off; }
+
+  location ~ /\.ht {
+    deny all;
+  }
+
+  location ~* \.(js|css|svg|png|jpe?g|ico)\$ {
+    try_files \$uri =404;
+  }
+
+  location / {
+    rewrite ^/(.*)\$ /index.php?__route__=\$1 last;
+  }
+}
+EOF
+(cd /etc/nginx/sites-enabled; rm -f default; ln -s ../sites-available/api)
+
+cat <<EOF >/etc/nginx/sites-available/rekisteri
+server {
+  listen 8083;
+  root /var/www/rekisteri;
+
+  # Make site accessible from http://localhost/
+  server_name localhost;
+
+  error_log /var/log/nginx/error_rekisteri.log;
+  access_log /var/log/nginx/error_rekisteri.log;
+
+  include hhvm.conf;
+
+  location = /favicon.ico { log_not_found off; access_log off; }
+  location = /robots.txt  { log_not_found off; access_log off; }
+
+  location ~ /\.ht {
+    deny all;
+  }
+
+  location ~* \.(js|css|svg|png|jpe?g|ico)\$ {
+    try_files \$uri =404;
+  }
+}
+EOF
+(cd /etc/nginx/sites-enabled; rm -f default; ln -s ../sites-available/rekisteri)
+
 # configure and restart stuff
+mkdir -p /var/lib/php5 && chown -R www-data:www-data /var/lib/php5
+nginx -t
 service nginx restart
 service hhvm restart
 

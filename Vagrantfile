@@ -41,6 +41,12 @@ Vagrant.configure("2") do |config|
       config.vm.synced_folder "../../sfl/pdgadb", "/var/www/pdgadb"
     end
 
+    # if we have rekisteri available, mount that too
+    if File.directory?("../../sfl/rekisteri")
+      config.vm.network :forwarded_port, guest: 8083, host: 8083
+      config.vm.synced_folder "../../sfl/rekisteri", "/var/www/rekisteri"
+    end
+
     # install common basic tools
     config.vm.provision :shell, :path => "scripts/install-basics.sh"
 
@@ -48,17 +54,17 @@ Vagrant.configure("2") do |config|
     config.vm.provision :shell, :path => "scripts/install-mysql.sh"
 
     # by default, we use apache2 and mod_php as legacy option
-    config.vm.provision :shell, :path => "scripts/install-apache.sh"
+    # config.vm.provision :shell, :path => "scripts/install-apache.sh"
 
     # uncomment this and comment out apache if you want it
-    # config.vm.provision :shell, :path => "scripts/install-nginx-hhvm.sh"
+    config.vm.provision :shell, :path => "scripts/install-nginx-hhvm.sh"
 
     # postfix is disabled in development as no email is supposed to be sent
     # uncomment on production install or when developing email features
     # config.vm.provision :shell, :path => "scripts/install-postfix.sh"
 
     # install unittest framework
-    config.vm.provision :shell, :path => "scripts/install-phpunit.sh"
+    # config.vm.provision :shell, :path => "scripts/install-phpunit.sh"
 
     # install nightwatch and selenium for running browser based ui tests
     config.vm.provision :shell, :path => "scripts/install-nodejs.sh"
