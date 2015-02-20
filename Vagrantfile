@@ -54,10 +54,10 @@ Vagrant.configure("2") do |config|
     config.vm.provision :shell, :path => "scripts/install-mysql.sh"
 
     # by default, we use apache2 and mod_php as legacy option
-    # config.vm.provision :shell, :path => "scripts/install-apache.sh"
+    config.vm.provision :shell, :path => "scripts/install-apache.sh"
 
     # uncomment this and comment out apache if you want it
-    config.vm.provision :shell, :path => "scripts/install-nginx-hhvm.sh"
+    # config.vm.provision :shell, :path => "scripts/install-nginx-hhvm.sh"
 
     # postfix is disabled in development as no email is supposed to be sent
     # uncomment on production install or when developing email features
