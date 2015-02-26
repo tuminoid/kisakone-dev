@@ -19,5 +19,5 @@ sed -ri \
 service mysql restart
 
 # stellar for development (not ready enough)
-# apt-get -y install python-pip libmysqlclient-dev python-dev
-# pip install stellar mysql-python pymysql
+apt-get -y install python-pip libmysqlclient-dev python-dev
+pip install stellar mysql-python pymysql
