@@ -2,7 +2,7 @@
 
 # mysql2 shortcut
 cat <<EOF >/etc/profile.d/mysql2.sh
-alias mysql2='mysql -uroot -ppass kisakone_and_rekisteri'
+alias mysql2='mysql -uroot -ppass kisakone'
 EOF
 
 # use sample configs for quick startup
@@ -24,6 +24,7 @@ if [ -e "/vagrant/kisakone.sql.backup" ]; then
   if [ "$DB" != "" ]; then
     echo "Detected DB name: $DB - altering config.php for you ..."
     sed -i -e "s,\"kisakone\";,\"$DB\";," /kisakone/config.php
+    sed -i -e "s,pass kisakone,pass $DB," /etc/profile.d/mysql2.sh
   fi
   echo "Done! Kisakone restored from backup at http://127.0.0.1:8080/"
 else
