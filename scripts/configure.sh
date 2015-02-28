@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# mysql2 shortcut
+cat <<EOF >/etc/profile.d/mysql2.sh
+alias mysql2='mysql -uroot -ppass kisakone_and_rekisteri'
+EOF
+
 # use sample configs for quick startup
 if [ ! -e /kisakone/config_site.php ]; then
   cp /kisakone/config_site.php.example /kisakone/config_site.php
