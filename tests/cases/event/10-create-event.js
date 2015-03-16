@@ -41,6 +41,9 @@ module.exports = {
       .setValue('#td', 'admin')
       .submitForm('form#eventform')
       .waitForElementVisible('td#content', 200)
-      .assert.containsText('td#content', 'Tietojen muokkaus on tehty onnistuneesti.')
+      .assert.containsText('td#content', 'Tulossa olevat kilpailut')
+      .assert.containsText('td#content', 'test event')
+      .assert.containsText('td#content', 'test venue')
+      .assert.containsText('td#content', '30.06.2020 - 01.07.2020')
   }
 }
