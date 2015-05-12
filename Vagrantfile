@@ -8,6 +8,7 @@ Vagrant.configure("2") do |config|
     # Virtualbox box
     config.vm.provider "virtualbox" do |v, override|
       override.vm.box = "hashicorp/precise64"
+      v.customize [ "modifyvm", :id, "--memory", "2048" ]
     end
 
     # LXC
