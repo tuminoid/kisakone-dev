@@ -2,10 +2,10 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-SELENIUM="selenium-server-standalone-2.44.0.jar"
-SELENIUM_URL="http://selenium-release.storage.googleapis.com/2.44/$SELENIUM"
+SELENIUM="selenium-server-standalone-2.45.0.jar"
+SELENIUM_URL="http://selenium-release.storage.googleapis.com/2.45/$SELENIUM"
 CHROMEDRIVER="chromedriver_linux64.zip"
-CHROMEDRIVER_URL="http://chromedriver.storage.googleapis.com/2.13"
+CHROMEDRIVER_URL="http://chromedriver.storage.googleapis.com/2.15"
 CACHE="/vagrant/.cache"
 
 # quit down the whine
