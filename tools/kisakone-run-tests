@@ -36,10 +36,10 @@ debug "TEST = $TESTS"
 if [[ $TESTS ]]; then
   for TEST in $TESTS; do
     debug "Running $TEST"
-    /root/nightwatch/bin/nightwatch -c nightwatch-settings.json -g $TEST
+    sudo -u vagrant -H /tmp/nightwatch/bin/nightwatch -c nightwatch-settings.json -g $TEST
   done
 else
   debug "Running all tests"
   clean_up
-  /root/nightwatch/bin/nightwatch -c nightwatch-settings.json
+  sudo -u vagrant -H /tmp/nightwatch/bin/nightwatch -c nightwatch-settings.json
 fi

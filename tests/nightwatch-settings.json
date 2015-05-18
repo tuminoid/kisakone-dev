@@ -11,7 +11,10 @@
     "server_path": "",
     "log_path": "/tmp/selenium.log",
     "host": "127.0.0.1",
-    "port": 4444
+    "port": 4444,
+    "cli_args" : {
+      "webdriver.chrome.driver" : "/usr/local/bin/chromedriver"
+    }
   },
 
   "test_settings" : {
@@ -25,12 +28,12 @@
         "path" : "./results/screenshots"
       },
       "desiredCapabilities": {
-        "binary": "/usr/bin/chromium-browser",
+        "binary": "/usr/bin/google-chrome",
         "browserName": "chrome",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
         "chromeOptions": {
-          "args": ["start-fullscreen"]
+          "args": ["start-fullscreen", "no-sandbox"]
         }
       },
       "globals" : {

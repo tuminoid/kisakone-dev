@@ -19,8 +19,8 @@ Vagrant.configure("2") do |config|
     # for vagrant-cachier
     if Vagrant.has_plugin?("vagrant-cachier")
       config.cache.scope = :machine
-      # config.cache.synced_folder_opts = { type: :nfs, mount_options: ['rw', 'vers=3', 'tcp', 'nolock'] }
       config.cache.synced_folder_opts = { }
+      config.cache.enable :generic, { :cache_dir => "/var/cache/generic" }
     end
 
     # expose port 80 so you can access kisakone with simple http://localhost

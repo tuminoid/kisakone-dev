@@ -6,46 +6,17 @@ SELENIUM="selenium-server-standalone-2.45.0.jar"
 SELENIUM_URL="http://selenium-release.storage.googleapis.com/2.45/$SELENIUM"
 CHROMEDRIVER="chromedriver_linux64.zip"
 CHROMEDRIVER_URL="http://chromedriver.storage.googleapis.com/2.15"
-CACHE="/vagrant/.cache"
+CACHE="/var/cache/generic"
 
 # quit down the whine
 mkdir -p /kisakone_local
 
 # prime cache
-mkdir -p $CACHE
 apt-get -y update
 
 
 # install generic site testing tools
 apt-get -y install linkchecker siege apache2-utils rsync unzip
-
-
-# install php-cs-fixer
-apt-get -y install wget
-wget -nc http://cs.sensiolabs.org/get/php-cs-fixer.phar -O $CACHE/php-cs-fixer
-mkdir -p /usr/local/bin
-cp $CACHE/php-cs-fixer /usr/local/bin/
-chmod 755 /usr/local/bin/php-cs-fixer
-cat <<EOF >/usr/local/bin/kisakone-fix-cs
-#!/bin/bash
-
-DIR=/kisakone
-if [ \$# -gt 0 ]; then
-  DIR=\$1
-  php-cs-fixer fix \$DIR --fixers=-visibility
-else
-  # fix code dirs (not Smarty etc)
-  for D in core data inputhandlers ui sfl; do
-    php-cs-fixer fix \$DIR/\$D --fixers=-visibility
-  done
-
-  # fix files
-  for F in index.php inputmapping.php; do
-    php-cs-fixer fix \$DIR/\$F --fixers=-visibility
-  done
-fi
-EOF
-chmod 755 /usr/local/bin/kisakone-fix-cs
 
 
 # nightwatch.js
@@ -54,9 +25,9 @@ cd $CACHE
 if [[ ! -e "nightwatch.git" ]]; then
   git clone --mirror https://github.com/beatfactor/nightwatch.git
 else
-  (cd nightwatch.git && git fetch --all)
+  (cd nightwatch.git && git fetch --all -p)
 fi
-cd ~
+cd /tmp
 git clone $CACHE/nightwatch.git
 cd nightwatch
 npm install
