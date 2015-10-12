@@ -16,6 +16,11 @@ Vagrant.configure("2") do |config|
       override.vm.box = "fgrehm/precise64-lxc"
     end
 
+    # vmware
+    config.vm.provider "vmware_fusion" do |v, override|
+      override.vm.box = "hashicorp/precise64"
+    end
+
     # for vagrant-cachier
     if Vagrant.has_plugin?("vagrant-cachier")
       config.cache.scope = :machine
