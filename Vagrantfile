@@ -53,6 +53,12 @@ Vagrant.configure("2") do |config|
       config.vm.synced_folder "../../sfl/rekisteri", "/var/www/rekisteri"
     end
 
+    # if we have rekisteri available, mount that too
+    if File.directory?("../../sfl/kisahaku")
+      config.vm.network :forwarded_port, guest: 8084, host: 8084
+      config.vm.synced_folder "../../sfl/kisahaku", "/var/www/kisahaku"
+    end
+
     # install common basic tools
     config.vm.provision :shell, :path => "scripts/install-basics.sh"
 
