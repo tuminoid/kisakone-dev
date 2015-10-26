@@ -32,33 +32,6 @@ Vagrant.configure("2") do |config|
     config.vm.network :forwarded_port, guest: 8080, host: 8080
     config.vm.synced_folder "../kisakone", "/kisakone"
 
-    # this will have access to /kisakone_local test environment after
-    # you have executed "./run_tests.sh all"
-    config.vm.network :forwarded_port, guest: 8081, host: 8081
-
-    # if we have sfl-api available, mount that too
-    if File.directory?("../../sfl/sfl-api")
-      config.vm.network :forwarded_port, guest: 8082, host: 8082
-      config.vm.synced_folder "../../sfl/sfl-api", "/var/www/sfl-api"
-    end
-
-    # if we have pdgadb available, mount that too
-    if File.directory?("../../sfl/pdgadb")
-      config.vm.synced_folder "../../sfl/pdgadb", "/var/www/pdgadb"
-    end
-
-    # if we have rekisteri available, mount that too
-    if File.directory?("../../sfl/rekisteri")
-      config.vm.network :forwarded_port, guest: 8083, host: 8083
-      config.vm.synced_folder "../../sfl/rekisteri", "/var/www/rekisteri"
-    end
-
-    # if we have rekisteri available, mount that too
-    if File.directory?("../../sfl/kisahaku")
-      config.vm.network :forwarded_port, guest: 8084, host: 8084
-      config.vm.synced_folder "../../sfl/kisahaku", "/var/www/kisahaku"
-    end
-
     # install common basic tools
     config.vm.provision :shell, :path => "scripts/install-basics.sh"
 
@@ -75,12 +48,18 @@ Vagrant.configure("2") do |config|
     # uncomment on production install or when developing email features
     # config.vm.provision :shell, :path => "scripts/install-postfix.sh"
 
-    # install unittest framework
-    # config.vm.provision :shell, :path => "scripts/install-phpunit.sh"
+    if ENV['tests']
+      # this will have access to /kisakone_local test environment after
+      # you have executed "./run_tests.sh all"
+      config.vm.network :forwarded_port, guest: 8081, host: 8081
 
-    # install nightwatch and selenium for running browser based ui tests
-    config.vm.provision :shell, :path => "scripts/install-nodejs.sh"
-    config.vm.provision :shell, :path => "scripts/install-test-env.sh"
+      # install unittest framework
+      config.vm.provision :shell, :path => "scripts/install-phpunit.sh"
+
+      # install nightwatch and selenium for running browser based ui tests
+      config.vm.provision :shell, :path => "scripts/install-nodejs.sh"
+      config.vm.provision :shell, :path => "scripts/install-test-env.sh"
+    end
 
     # install default config and restore backup if present
     config.vm.provision :shell, :path => "scripts/configure.sh"

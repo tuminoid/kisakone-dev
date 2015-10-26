@@ -33,83 +33,12 @@ cat <<EOF >/etc/apache2/sites-available/kisakone
 
         CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
-
-<VirtualHost *:8082>
-        ServerAdmin webmaster@localhost
-
-        DocumentRoot /var/www/sfl-api
-
-        <Directory /var/www/sfl-api/>
-                Options Indexes FollowSymLinks MultiViews ExecCGI
-                AllowOverride All
-                Order allow,deny
-                allow from all
-        </Directory>
-
-        ErrorLog \${APACHE_LOG_DIR}/api_error.log
-
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-        LogLevel warn
-
-        CustomLog \${APACHE_LOG_DIR}/api_access.log combined
-</VirtualHost>
-
-<VirtualHost *:8083>
-        ServerAdmin webmaster@localhost
-
-        DocumentRoot /var/www/rekisteri
-
-        <Directory /var/www/rekisteri/>
-                Options Indexes FollowSymLinks MultiViews ExecCGI
-                AllowOverride All
-                Order allow,deny
-                allow from all
-        </Directory>
-
-        ErrorLog \${APACHE_LOG_DIR}/rekisteri_error.log
-
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-        LogLevel warn
-
-        CustomLog \${APACHE_LOG_DIR}/rekisteri_access.log combined
-</VirtualHost>
-
-<VirtualHost *:8084>
-        ServerAdmin webmaster@localhost
-
-        DocumentRoot /var/www/kisahaku
-
-        <Directory /var/www/kisahaku/>
-                Options Indexes FollowSymLinks MultiViews ExecCGI
-                AllowOverride All
-                Order allow,deny
-                allow from all
-        </Directory>
-
-        ErrorLog \${APACHE_LOG_DIR}/kisahaku_error.log
-
-        # Possible values include: debug, info, notice, warn, error, crit,
-        # alert, emerg.
-        LogLevel warn
-
-        CustomLog \${APACHE_LOG_DIR}/kisahaku_access.log combined
-</VirtualHost>
 EOF
 a2ensite kisakone
 
 cat <<EOF >/etc/apache2/ports.conf
 NameVirtualHost *:8080
 Listen 8080
-NameVirtualHost *:8081
-Listen 8081
-NameVirtualHost *:8082
-Listen 8082
-NameVirtualHost *:8083
-Listen 8083
-NameVirtualHost *:8084
-Listen 8084
 EOF
 service apache2 restart
 

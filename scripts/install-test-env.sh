@@ -160,6 +160,12 @@ EOF
         CustomLog \${APACHE_LOG_DIR}/access_local.log combined
 </VirtualHost>
 EOF
+
+  cat <<EOF >>/etc/apache2/ports.conf
+NameVirtualHost *:8081
+Listen 8081
+EOF
+
   a2ensite local
   service apache2 restart
 fi
