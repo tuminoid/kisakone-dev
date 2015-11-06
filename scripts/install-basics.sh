@@ -1,10 +1,14 @@
 #!/bin/sh
 
 export DEBIAN_FRONTEND=noninteractive
+PREFERRED_MIRROR="fi.archive.ubuntu.com"
 
 # use finnish mirrors
-sed -i -e 's,us.archive.ubuntu.com,fi.archive.ubuntu.com,g' /etc/apt/sources.list
-sed -i -e 's,http://archive.ubuntu.com,http://fi.archive.ubuntu.com,g' /etc/apt/sources.list
+sed -i \
+    -e "s,us.archive.ubuntu.com,$PREFERRED_MIRROR,g" \
+    -e "s,http://archive.ubuntu.com,http://$PREFERRED_MIRROR,g" \
+    -e "s,http://mirror.rackspace.com,http://$PREFERRED_MIRROR,g" \
+    /etc/apt/sources.list
 
 # update repos
 apt-get -y update
@@ -16,11 +20,5 @@ apt-get -y install git nano less curl wget nmap command-not-found man software-p
 sed -i -e 's,server 0.ubuntu.pool.ntp.org,server 0.ubuntu.pool.ntp.org iburst,' /etc/ntp.conf
 service ntp restart
 
-# 12.04 has python-software-properties for add-apt-repository,
-# which 14.04 handles with software-properties-common
-apt-get -y install python-software-properties || true
-
 # install memcached
 apt-get -y install memcached
-sed -i -e 's,-m 64,-m 128,' /etc/memcached.conf
-service memcached restart

@@ -2,9 +2,6 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-# update repos
-apt-get -y update
-
 # mysql
 apt-get -y install debconf-utils
 echo 'mysql-server-5.5 mysql-server/root_password_again password pass' | debconf-set-selections
@@ -17,7 +14,3 @@ sed -ri \
     -e '/query_cache_size/a query_cache_type        = 1' \
     /etc/mysql/my.cnf
 service mysql restart
-
-# stellar for development (not ready enough)
-apt-get -y install python-pip libmysqlclient-dev python-dev
-pip install stellar mysql-python pymysql
