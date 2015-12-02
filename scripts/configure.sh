@@ -20,7 +20,7 @@ if [ -e "/vagrant/kisakone.sql.backup" ]; then
 
   echo "Setting up config.php"
   cp /kisakone/config.php.example /kisakone/config.php
-  DB=$(cat /vagrant/kisakone.sql.backup | grep "Current Database" | grep kisakone | grep -v "next" | grep -v "test" | head -1 | cut -f2 -d'`' | cut -f1 -d'`')
+  DB=$(grep "Current Database" /vagrant/kisakone.sql.backup | grep kisakone | grep -v "next" | grep -v "test" | head -1 | cut -f2 -d'`' | cut -f1 -d'`')
   if [ "$DB" != "" ]; then
     echo "Detected DB name: $DB - altering config.php for you ..."
     sed -i -e "s,\"kisakone\";,\"$DB\";," /kisakone/config.php
