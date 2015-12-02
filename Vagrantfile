@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
     # Virtualbox box
     config.vm.provider "virtualbox" do |v, override|
       override.vm.box = "hashicorp/precise64"
-      v.customize [ "modifyvm", :id, "--memory", "2048" ]
+      v.memory = 2048
     end
 
     # LXC
@@ -19,6 +19,13 @@ Vagrant.configure("2") do |config|
     # vmware
     config.vm.provider "vmware_fusion" do |v, override|
       override.vm.box = "hashicorp/precise64"
+      v.vmx["memsize"] = "2048"
+    end
+
+    # parallels
+    config.vm.provider "parallels" do |v, override|
+      override.vm.box = "parallels/ubuntu-12.04"
+      v.memory = 2048
     end
 
     # for vagrant-cachier
