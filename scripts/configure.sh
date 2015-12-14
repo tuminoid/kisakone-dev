@@ -6,7 +6,7 @@ alias mysql2='mysql -uroot -ppass kisakone'
 EOF
 
 # use sample configs for quick startup
-if [ ! -e /kisakone/config_site.php ]; then
+if [ ! -e /kisakone/config_site.php ] && [ -f /kisakone/config_site.php.example ]; then
   cp /kisakone/config_site.php.example /kisakone/config_site.php
 fi
 
