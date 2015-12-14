@@ -55,7 +55,7 @@ Vagrant.configure("2") do |config|
     # uncomment on production install or when developing email features
     # config.vm.provision :shell, :path => "scripts/install-postfix.sh"
 
-    if ENV['tests']
+    if ENV['TESTENV']
       # this will have access to /kisakone_local test environment after
       # you have executed "./run_tests.sh all"
       config.vm.network :forwarded_port, guest: 8081, host: 8081
