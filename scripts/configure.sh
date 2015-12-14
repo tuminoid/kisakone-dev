@@ -26,6 +26,10 @@ if [ -e "/vagrant/kisakone.sql.backup" ]; then
     sed -i -e "s,\"kisakone\";,\"$DB\";," /kisakone/config.php
     sed -i -e "s,pass kisakone,pass $DB," /etc/profile.d/mysql2.sh
   fi
+
+  echo "Fixing settings for development"
+  mysql -uroot -ppass $DB <<< "UPDATE kisakone_Config SET EmailEnabled = 0, Devel_DbDieOnError = 1, Devel_DbLogging = 1, CacheEnabled = 0, EmailVerification = 0;"
+
   echo "Done! Kisakone restored from backup at http://127.0.0.1:8080/"
 else
   echo "Done! Kisakone is waiting for installation at http://127.0.0.1:8080/doc/install/install.php"
