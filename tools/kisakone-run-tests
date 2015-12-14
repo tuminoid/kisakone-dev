@@ -10,7 +10,7 @@ EOS
 sync() {
   [[ ! -d /kisakone ]] && echo "error: /kisakone not found" && exit 1
   mkdir -p /kisakone_local
-  rsync -a --delete --exclude=.git --exclude=config.php --exclude=Smarty/templates_c /kisakone/ /kisakone_local/
+  rsync -a --delete --exclude=.git --exclude=./config.php --exclude=Smarty/templates_c /kisakone/ /kisakone_local/
   cp /vagrant/files/config_site.php /kisakone_local/config_site.php
   chown -R www-data:www-data /kisakone_local
 }
@@ -21,7 +21,7 @@ debug() {
 }
 
 
-debug "$0 $@"
+debug "$0 $*"
 while [[ $1 ]]; do
   case $1 in
     --clean) clean_up ;;
@@ -36,7 +36,7 @@ debug "TEST = $TESTS"
 if [[ $TESTS ]]; then
   for TEST in $TESTS; do
     debug "Running $TEST"
-    sudo -u vagrant -H /tmp/nightwatch/bin/nightwatch -c nightwatch-settings.json -g $TEST
+    sudo -u vagrant -H /tmp/nightwatch/bin/nightwatch -c nightwatch-settings.json -g "$TEST"
   done
 else
   debug "Running all tests"
