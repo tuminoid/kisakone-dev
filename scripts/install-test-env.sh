@@ -133,12 +133,10 @@ xdebug.profiler_enable_trigger = 1
 EOF
 
   # php-unit
-  add-apt-repository -y ppa:team-mayhem/ppa
-  apt-get -y update
-  apt-get -y install php-phpunit-phpunit
+  apt-get -y install phpunit
 
   # apache config
-  cat <<EOF >/etc/apache2/sites-available/local
+  cat <<EOF >/etc/apache2/sites-available/local.conf
 <VirtualHost *:8081>
         ServerAdmin webmaster@localhost
 
@@ -147,8 +145,7 @@ EOF
         <Directory /kisakone_local/>
                 Options Indexes FollowSymLinks MultiViews ExecCGI
                 AllowOverride All
-                Order allow,deny
-                allow from all
+                Require all granted
         </Directory>
 
         ErrorLog \${APACHE_LOG_DIR}/error_local.log
@@ -162,7 +159,6 @@ EOF
 EOF
 
   cat <<EOF >>/etc/apache2/ports.conf
-NameVirtualHost *:8081
 Listen 8081
 EOF
 

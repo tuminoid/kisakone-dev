@@ -5,6 +5,11 @@ export DEBIAN_FRONTEND=noninteractive
 
 # apache
 apt-get -y install apache2 libapache2-mod-php5 libapache2-mod-auth-mysql php5-mysql php5-curl php5-mcrypt php5-memcached php5-xdebug
+
+# fix php mcrypt
+(cd /etc/php5/apache2/conf.d && ln -s ../../mods-available/mcrypt.ini 20-mcrypt.ini)
+(cd /etc/php5/cli/conf.d && ln -s ../../mods-available/mcrypt.ini 20-mcrypt.ini)
+
 echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf
 a2enconf fqdn
 a2enmod php5

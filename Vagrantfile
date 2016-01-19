@@ -3,9 +3,9 @@
 # Author: Tuomo Tanskanen <tuomo@tanskanen.org>
 
 # You can configure this installer by exporting environment variables:
-# nginx = install nginx+hhvm instead of apache+mod_php
-# tests = install test frameworks
-# postfix = install postfix
+# KISAKONE_NGINX   = install nginx+hhvm instead of apache+mod_php
+# KISAKONE_TESTS   = install test frameworks
+# KISAKONE_POSTFIX = install postfix
 
 Vagrant.configure("2") do |config|
 
@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
 
         # parallels
         config.vm.provider "parallels" do |v, override|
-            override.vm.box = "parallels/ubuntu-12.04"
+            override.vm.box = "parallels/ubuntu-14.04"
             v.memory = 2048
         end
 
@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
         config.vm.provision :shell, :path => "scripts/install-mysql.sh"
 
 
-        if ENV['nginx']
+        if ENV['KISAKONE_NGINX']
             # use nginx + hhvm instead of apache and mod_php
             config.vm.provision :shell, :path => "scripts/install-nginx-hhvm.sh"
         else
@@ -60,13 +60,13 @@ Vagrant.configure("2") do |config|
         end
 
 
-        if ENV['tests']
+        if ENV['KISAKONE_TESTS']
             # this will have access to /kisakone_local test environment after
             # you have executed "./run_tests.sh all"
             config.vm.network :forwarded_port, guest: 8081, host: 8081
 
             # postfix is disabled by default in development as no email is supposed to be sent
-            if ENV['postfix']
+            if ENV['KISAKONE_POSTFIX']
                 config.vm.provision :shell, :path => "scripts/install-postfix.sh"
             end
 
