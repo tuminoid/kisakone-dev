@@ -1,3 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-phpunit ./testLogin.php
+run-phpunit() {
+    echo "Testing: $*"
+    phpunit --colors --strict "$@"
+}
+
+
+run-phpunit ./testLogin.php
+run-phpunit ./testUrl.php
