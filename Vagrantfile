@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-# Author: Tuomo Tanskanen <tuomo@tanskanen.org>
+# Copyright (c) 2013-2016 Tuomo Tanskanen <tuomo@tanskanen.org>
 
 # You can configure this installer by exporting environment variables:
 # KISAKONE_NGINX   = install nginx+hhvm instead of apache+mod_php
@@ -43,6 +43,9 @@ Vagrant.configure("2") do |config|
         # expose port 80 so you can access kisakone with simple http://localhost
         config.vm.network :forwarded_port, guest: 8080, host: 8080
         config.vm.synced_folder "../kisakone", "/kisakone"
+        if File.directory?("../pdga-integration")
+            config.vm.synced_folder "../pdga-integration", "/kisakone/pdga"
+        end
 
         # install common basic tools
         config.vm.provision :shell, :path => "scripts/install-basics.sh"
