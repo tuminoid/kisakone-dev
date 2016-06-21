@@ -46,6 +46,9 @@ Vagrant.configure("2") do |config|
         if File.directory?("../pdga-integration")
             config.vm.synced_folder "../pdga-integration", "/kisakone/pdga"
         end
+        if File.directory?("../kisakone-live")
+            config.vm.synced_folder "../kisakone-live", "/kisakone/live"
+        end
 
         # install common basic tools
         config.vm.provision :shell, :path => "scripts/install-basics.sh"
