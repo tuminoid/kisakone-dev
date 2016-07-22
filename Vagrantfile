@@ -47,6 +47,7 @@ Vagrant.configure("2") do |config|
             config.vm.synced_folder "../pdga-integration", "/kisakone/pdga"
         end
         if File.directory?("../kisakone-live")
+            config.vm.network "public_network"
             config.vm.synced_folder "../kisakone-live", "/kisakone/live"
         end
 
