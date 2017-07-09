@@ -3,6 +3,7 @@
 export DEBIAN_FRONTEND=noninteractive
 
 # mysql
+apt-get -y update
 apt-get -y install debconf-utils
 echo 'mysql-server-5.5 mysql-server/root_password_again password pass' | debconf-set-selections
 echo 'mysql-server-5.5 mysql-server/root_password password pass' | debconf-set-selections
