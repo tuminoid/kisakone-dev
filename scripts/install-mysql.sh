@@ -13,5 +13,7 @@ sed -ri \
     -e 's,key_buffer(\s+)= 16M,key_buffer_size         = 16M,' \
     -e 's,query_cache_size(\s+)= 16M,query_cache_size        = 256M,' \
     -e '/query_cache_size/a query_cache_type        = 1' \
+    -e '/query_cache_type/a secure-file-priv=""/' \
     /etc/mysql/my.cnf
+
 service mysql restart
