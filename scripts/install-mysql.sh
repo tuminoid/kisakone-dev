@@ -14,6 +14,7 @@ sed -ri \
     -e 's,query_cache_size(\s+)= 16M,query_cache_size        = 256M,' \
     -e '/query_cache_size/a query_cache_type        = 1' \
     -e '/query_cache_type/a secure-file-priv=""/' \
+    -e 's/bind-address.*/bind-address=0.0.0.0/' \
     /etc/mysql/my.cnf
 
 service mysql restart
