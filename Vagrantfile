@@ -42,6 +42,7 @@ Vagrant.configure("2") do |config|
 
         # expose port 80 so you can access kisakone with simple http://localhost
         config.vm.network :forwarded_port, guest: 8080, host: 8080
+        config.vm.network :forwarded_port, guest: 3306, host: 3306
         config.vm.synced_folder "../kisakone", "/kisakone"
         if File.directory?("../pdga-integration")
             config.vm.synced_folder "../pdga-integration", "/kisakone/pdga"
