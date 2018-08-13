@@ -13,10 +13,12 @@ fi
 # restore backups (expects backup file to contain proper "use database;")
 if [ -e "/vagrant/kisakone.sql.backup" ]; then
   echo "Restoring backup SQL from: kisakone.sql.backup"
-  mysql -u root --password=pass < /vagrant/kisakone.sql.backup
+  mysql -uroot -ppass < /vagrant/kisakone.sql.backup
 
   echo "Resetting root password to pass"
-  mysql -uroot -ppass <<< "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY 'pass'; FLUSH PRIVILEGES;"
+  mysql -uroot -ppass <<< "GRANT ALL ON *.* TO root@'localhost' IDENTIFIED BY 'pass';"
+  mysql -uroot -ppass <<< "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'pass';"
+  mysql -uroot -ppass <<< "FLUSH PRIVILEGES;"
 
   echo "Setting up config.php"
   cp /kisakone/config.php.example /kisakone/config.php
