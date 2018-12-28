@@ -3,3 +3,4 @@
 *.bak
 /cachegrind.*
 /*.bz2
+.DS_Store
